@@ -17,10 +17,20 @@ export class VenueListComponent {
     this.getVenueList();
   }
 
-  getVenueList(){
+  getVenueList() {
     this.venueService.getVenue()
       .subscribe(venueList => {
         this.venueList = venueList;
       });
+  }
+
+  deleteVenue(venue_id: number, name: string) {
+    this.venueService.deleteVenue(venue_id).subscribe(isSuccess => {
+      if (isSuccess) {
+        console.log(isSuccess);
+        window.location.reload(); 
+        sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+      }
+    });
   }
 }

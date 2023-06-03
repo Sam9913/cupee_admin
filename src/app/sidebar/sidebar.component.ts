@@ -18,6 +18,7 @@ export class SidebarComponent {
   }
 
   ngOnInit() {
+    this.clickItem('home');
     this.subscription = this.router.events.subscribe(
       (event: any) => {
         if (event instanceof NavigationEnd) {

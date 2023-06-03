@@ -18,14 +18,15 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    this.message = sessionStorage.getItem('message') ?? '';
-    setTimeout(() => {
-      sessionStorage.removeItem('message');
-    }, 200);
-
     this.subscription = this.router.events.subscribe(
       (event: any) => {
         if (event instanceof NavigationEnd) {
+          this.message = sessionStorage.getItem('message') ?? '';
+          setTimeout(() => {
+            this.message = '';
+            sessionStorage.removeItem('message');
+          }, 1000);
+
           if(this.router.url == '/'){
             this.isLoginPage = true;
           }else{
