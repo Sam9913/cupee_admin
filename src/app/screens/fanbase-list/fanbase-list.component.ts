@@ -24,4 +24,14 @@ export class FanbaseListComponent {
       });
   }
 
+  deleteFanbase(fanabase_id: number, name: string) {
+    this.fanbaseService.deleteFanbase(fanabase_id)
+      .subscribe(isSuccess => {
+        if (isSuccess) {
+          window.location.reload();
+          sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+        }
+      });
+  }
+
 }

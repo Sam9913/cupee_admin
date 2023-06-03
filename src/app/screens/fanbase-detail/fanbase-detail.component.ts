@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FanbaseService } from 'src/app/services/fanbase.service';
 
 @Component({
@@ -11,11 +11,13 @@ import { FanbaseService } from 'src/app/services/fanbase.service';
 export class FanbaseDetailComponent {
   fanbaseDetailForm!: FormGroup;
   isUpdate: boolean = false;
+  isFail: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private fanbaseService: FanbaseService
+    private fanbaseService: FanbaseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -79,7 +81,12 @@ export class FanbaseDetailComponent {
           this.fanbaseDetailForm.value.facebook_link,
           id
         ).subscribe(isSuccess => {
-          console.log(isSuccess)
+          if (isSuccess) {
+            sessionStorage.setItem('message', 'Successfully update existing fanbase');
+            this.router.navigate(['/fanbase']);
+          } else {
+            this.isFail = true;
+          }
         });
       }else{
         this.fanbaseService.addFanbase(
@@ -89,7 +96,12 @@ export class FanbaseDetailComponent {
           this.fanbaseDetailForm.value.instagram_username,
           this.fanbaseDetailForm.value.facebook_link
         ).subscribe(isSuccess => {
-          console.log(isSuccess)
+          if (isSuccess) {
+            sessionStorage.setItem('message', 'Successfully update existing fanbase');
+            this.router.navigate(['/fanbase']);
+          } else {
+            this.isFail = true;
+          }
         });
       }
     }

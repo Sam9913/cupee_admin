@@ -29,23 +29,24 @@
         </div>
         <div class="w-1/2">
             <div class="flex flex-col space-y-1">
+                <a class="cursor-pointer flex flex-row" *ngIf="fanbase.facebook_link != ''"
+                    href="{{fanbase.facebook_link}}" target="_blank"><img src="../../../assets/icons/facebook.png"
+                        class="w-6 mr-1" /><span class="underline truncate w-96"
+                        style="color:blue">{{fanbase.facebook_link}}</span></a>
                 <a class="cursor-pointer flex flex-row" *ngIf="fanbase.instagram_username != ''"
                     href="https://instagram.com/{{fanbase.instagram_username}}" target="_blank"><img
                         src="../../../assets/icons/instagram.png" class="w-6 mr-1" />{{fanbase.instagram_username}}</a>
                 <a class="cursor-pointer flex flex-row" *ngIf="fanbase.twitter_username != ''"
                     href="https://twitter.com/{{fanbase.twitter_username}}" target="_blank"><img
                         src="../../../assets/icons/twitter.png" class="w-6 mr-1" />{{fanbase.twitter_username}}</a>
-                <a class="cursor-pointer flex flex-row" *ngIf="fanbase.facebook_link != ''"
-                    href="{{fanbase.facebook_link}}" target="_blank"><img src="../../../assets/icons/facebook.png"
-                        class="w-6 mr-1" /><span class="underline truncate w-96"
-                        style="color:blue">{{fanbase.facebook_link}}</span></a>
             </div>
         </div>
         <div class="w-1/12">
             <div class="flex flex-row space-x-2 justify-end">
                 <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
                     [routerLink]="['/fanbase/detail', fanbase.id]"> edit </a>
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"> delete </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1 cursor-pointer"
+                    (click)="deleteFanbase(fanbase.id, fanbase.name)"> delete </a>
             </div>
         </div>
     </div>
