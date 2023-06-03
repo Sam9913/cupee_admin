@@ -1,11 +1,11 @@
 <div id="sidebar" class="flex w-16 flex-col items-evenly justify-between h-full py-6 bg-white">
     <div class="flex justify-between text-gray-500 relative">
-        <span id="account_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
-        <span id="account" (click)="clickItem('account')" [routerLink]="['']" class="material-symbols-outlined sidebar-icon">
-            account_circle </span>
+        <span id="setting_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+        <span id="setting" (click)="clickItem('setting')" routerLink="/setting" class="material-symbols-outlined sidebar-icon">
+            settings </span>
         <span class="bg-white w-2 h-auto"></span>
         <span
-            class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Account</span>
+            class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Setting</span>
     </div>
     <div class="space-y-5 rounded-md bg-white text-gray-500">
         <div class="flex justify-between text-gray-500 relative">

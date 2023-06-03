@@ -34,6 +34,8 @@ export class SidebarComponent {
             this.selectedEvent = 'idol';
           }else if(url.includes('venue')){
             this.selectedEvent = 'venue';
+          }else if(url.includes('setting')){
+            this.selectedEvent = 'setting';
           }else{
             this.selectedEvent = 'home';
           }

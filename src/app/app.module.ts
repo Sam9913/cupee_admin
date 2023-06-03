@@ -18,6 +18,7 @@ import { IdolDetailComponent } from './screens/idol-detail/idol-detail.component
 import { VenueListComponent } from './screens/venue-list/venue-list.component';
 import { VenueDetailComponent } from './screens/venue-detail/venue-detail.component';
 import { LoginComponent } from './screens/login/login.component';
+import { SettingComponent } from './screens/setting/setting.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LoginComponent } from './screens/login/login.component';
     IdolDetailComponent,
     VenueListComponent,
     VenueDetailComponent,
-    LoginComponent
+    LoginComponent,
+    SettingComponent
   ],
   imports: [
     BrowserModule,
