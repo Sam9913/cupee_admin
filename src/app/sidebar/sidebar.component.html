@@ -1,0 +1,58 @@
+<div id="sidebar" class="flex w-16 flex-col items-evenly justify-between h-full py-6 bg-white">
+    <div class="flex justify-between text-gray-500 relative">
+        <span id="account_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+        <span id="account" (click)="clickItem('account')" [routerLink]="['']" class="material-symbols-outlined sidebar-icon">
+            account_circle </span>
+        <span class="bg-white w-2 h-auto"></span>
+        <span
+            class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Account</span>
+    </div>
+    <div class="space-y-5 rounded-md bg-white text-gray-500">
+        <div class="flex justify-between text-gray-500 relative">
+            <span id="home_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+            <span id="home" (click)="clickItem('home')" routerLink="/home" class="material-symbols-outlined sidebar-icon"> home
+            </span>
+            <span class="bg-white w-2 h-auto"></span>
+            <span
+                class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Home</span>
+        </div>
+        <div class="flex justify-between text-gray-500 relative">
+            <span id="event_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+            <span id="event" (click)="clickItem('event')" routerLink="/event" class="material-symbols-outlined sidebar-icon">
+                event </span>
+            <span class="bg-white w-2 h-auto"></span>
+            <span
+                class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Event</span>
+        </div>
+        <div class="flex justify-between text-gray-500 relative">
+            <span id="fanbase_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+            <span id="fanbase" (click)="clickItem('fanbase')" routerLink="/fanbase" class="material-symbols-outlined sidebar-icon">
+                flag </span>
+            <span class="bg-white w-2 h-auto"></span>
+            <span
+                class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Fanbase</span>
+        </div>
+        <div class="flex justify-between text-gray-500 relative">
+            <span id="idol_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+            <span id="idol" (click)="clickItem('idol')" routerLink="/idol" class="material-symbols-outlined sidebar-icon">
+                groups </span>
+            <span class="bg-white w-2 h-auto"></span>
+            <span
+                class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Idol</span>
+        </div>
+        <div class="flex justify-between text-gray-500 relative">
+            <span id="venue_sidebar" class="bar-select w-1 rounded-r h-auto"></span>
+            <span id="venue" (click)="clickItem('venue')" routerLink="/venue" class="material-symbols-outlined sidebar-icon">
+                explore </span>
+            <span class="bg-white w-2 h-auto"></span>
+            <span
+                class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Venue</span>
+        </div>
+    </div>
+    <div class="flex items-center justify-center text-gray-500 relative">
+        <span id="logout" (click)="logout()" [routerLink]="['']" class="material-symbols-outlined sidebar-icon">
+            logout </span>
+        <span
+            class="absolute z-10 inline-block px-3 py-2 text-white bg-gray-900 rounded-lg shadow-sm tooltip text-sm left-20">Logout</span>
+    </div>
+</div>

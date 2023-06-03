@@ -1,0 +1,9 @@
+{
+    "/api/*": {
+        "target": "https://cupeetest.000webhostapp.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": { "^/api": "" }
+    }
+}

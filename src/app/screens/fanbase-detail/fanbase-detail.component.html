@@ -1,0 +1,59 @@
+<form [formGroup]="fanbaseDetailForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-row justify-items-end space-x-2 px-10 py-4 place-content-end">
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" routerLink="/fanbase">Cancel</button>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+    </div>
+    <div class="flex flex-row space-x-10 px-10 py-2">
+        <div class="w-1/2">
+            <div class="mb-4">
+                <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                <input id="idol" type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required=""
+                    formControlName="name">
+            </div>
+    
+            <div class="mb-4">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                <input id="name" type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required=""
+                    formControlName="email">
+            </div>
+        </div>
+        <div class="w-1/2">
+            <div class="mb-4">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Social Media</label>
+                <div class="flex mb-2">
+                    <span
+                        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+                        <img src="../../../assets/icons/facebook.png" class="w-3" />
+                    </span>
+                    <input type="text" id="website-admin"
+                        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+                        formControlName="facebook_link">
+                </div>
+    
+                <div class="flex mb-2">
+                    <span
+                        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+                        <img src="../../../assets/icons/instagram.png" class="w-3" />
+                    </span>
+                    <input type="text" id="website-admin"
+                        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+                        formControlName="instagram_username">
+                </div>
+    
+                <div class="flex">
+                    <span
+                        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+                        <img src="../../../assets/icons/twitter.png" class="w-3" />
+                    </span>
+                    <input type="text" id="website-admin"
+                        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+                        formControlName="twitter_username">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,52 @@
+<div class="flex flex-row justify-between mb-3">
+    <div class="text-3xl font-bold">{{fanbaseList.length}} fanbase(s)</div>
+    <button type="button" class="rounded-md bg-black text-white px-2" routerLink="/fanbase/detail">+ Create new</button>
+</div>
+<div class="rounded-md bg-white px-5 py-5">
+    <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
+        <div class="w-1/6 flex flex-row">
+            Name
+            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+        </div>
+        <div class="w-1/4 flex flex-row">
+            Email
+            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+        </div>
+        <div class="w-1/2 flex flex-row">
+            Social Media
+            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+        </div>
+        <div class="w-1/12 text-end">
+            Action
+        </div>
+    </div>
+    <div class="flex flex-row px-2 py-3 space-x-10" *ngFor="let fanbase of fanbaseList">
+        <div class="w-1/6">
+            {{fanbase.name}}
+        </div>
+        <div class="w-1/4 ">
+            {{fanbase.email}}
+        </div>
+        <div class="w-1/2">
+            <div class="flex flex-col space-y-1">
+                <a class="cursor-pointer flex flex-row" *ngIf="fanbase.instagram_username != ''"
+                    href="https://instagram.com/{{fanbase.instagram_username}}" target="_blank"><img
+                        src="../../../assets/icons/instagram.png" class="w-6 mr-1" />{{fanbase.instagram_username}}</a>
+                <a class="cursor-pointer flex flex-row" *ngIf="fanbase.twitter_username != ''"
+                    href="https://twitter.com/{{fanbase.twitter_username}}" target="_blank"><img
+                        src="../../../assets/icons/twitter.png" class="w-6 mr-1" />{{fanbase.twitter_username}}</a>
+                <a class="cursor-pointer flex flex-row" *ngIf="fanbase.facebook_link != ''"
+                    href="{{fanbase.facebook_link}}" target="_blank"><img src="../../../assets/icons/facebook.png"
+                        class="w-6 mr-1" /><span class="underline truncate w-96"
+                        style="color:blue">{{fanbase.facebook_link}}</span></a>
+            </div>
+        </div>
+        <div class="w-1/12">
+            <div class="flex flex-row space-x-2 justify-end">
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
+                    [routerLink]="['/fanbase/detail', fanbase.id]"> edit </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"> delete </a>
+            </div>
+        </div>
+    </div>
+</div>

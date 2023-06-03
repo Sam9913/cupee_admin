@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tooltip {
+    visibility: hidden;
+}
+
+.sidebar-icon:hover~.tooltip {
+    visibility: visible;
+}
+
+.sidebar-icon {
+    cursor: pointer;
+}
+
+.selected-sidebar-item {
+    color: #F3686C;
+}
+
+.bg-pink {
+    background-color: #F3686C;
+}
+
+.bg-red-100 {
+    background-color: #ea4e2c2d;
+}
+
+.border-red-100{
+    border-width: 1px;
+    border-color: #ea4e2c7c;
+}
+
+.icon-red{
+    color: #ea4e2cc4;
+}
+
+.border-green-500{
+    border-width: 1px;
+    border-color: rgb(34 197 94);
+}
+
+.icon-green{
+    color: rgb(22 163 74);
+}
