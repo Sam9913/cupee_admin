@@ -56,6 +56,24 @@ export class IdolDetailComponent {
       });
   }
 
+  addMemberAmount() {
+    var value = this.idolDetailForm.value.member_amount;
+    if (value == '') {
+      this.memberAmountControl.setValue(1);
+    } else {
+      this.memberAmountControl.setValue(parseInt(value, 10) + 1);
+    }
+  }
+
+  deductMemberAmount() {
+    var value = this.idolDetailForm.value.member_amount;
+    if (value == '' || value == '1') {
+      this.memberAmountControl.setValue(0);
+    } else {
+      this.memberAmountControl.setValue(parseInt(value, 10) - 1);
+    }
+  }
+
   onSubmit() {
     if (this.idolDetailForm.valid) {
       if (this.isUpdate) {
@@ -66,9 +84,9 @@ export class IdolDetailComponent {
           this.idolDetailForm.value.gender,
           this.idolDetailForm.value.member_amount,
           id
-        ).subscribe(isFail => {
-          if (isFail) {
-            sessionStorage.setItem('message', 'Successfully update existing idol');
+        ).subscribe(isSuccess => {
+          if (isSuccess) {
+            sessionStorage.setItem('message', 'Successfully update ' + this.idolDetailForm.value.name);
             this.router.navigate(['/idol']);
           } else {
             this.isFail = true;
@@ -79,9 +97,9 @@ export class IdolDetailComponent {
           this.idolDetailForm.value.name,
           this.idolDetailForm.value.gender,
           this.idolDetailForm.value.member_amount,
-        ).subscribe(isFail => {
-          if (isFail) {
-            sessionStorage.setItem('message', 'Successfully add new idol');
+        ).subscribe(isSuccess => {
+          if (isSuccess) {
+            sessionStorage.setItem('message', 'Successfully add ' + this.idolDetailForm.value.name);
             this.router.navigate(['/idol']);
           } else {
             this.isFail = true;

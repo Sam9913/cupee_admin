@@ -34,7 +34,8 @@
             <div class="flex flex-row space-x-2 justify-end">
                 <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
                     [routerLink]="['/idol/detail', idol.id]"> edit </a>
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"> delete </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1 cursor-pointer"
+                    (click)="deleteIdol(idol.id, idol.name)"> delete </a>
             </div>
         </div>
     </div>

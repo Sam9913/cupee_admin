@@ -17,10 +17,20 @@ export class IdolListComponent {
     this.getIdolList();
   }
 
-  getIdolList(){
+  getIdolList() {
     this.idolService.getIdol()
       .subscribe(idolList => {
         this.idolList = idolList;
+      });
+  }
+
+  deleteIdol(idol_id: number, name: string) {
+    this.idolService.deleteIdol(idol_id)
+      .subscribe(isSuccess => {
+        if (isSuccess) {
+          window.location.reload();
+          sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+        }
       });
   }
 }
