@@ -1,52 +1,56 @@
 <form [formGroup]="eventDetailForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-row justify-items-end space-x-2 px-10 py-4 place-content-end">
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" routerLink="/event">Cancel</button>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            routerLink="/event">Cancel</button>
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
     </div>
     <div class="flex flex-row space-x-10 px-10 py-2">
         <div class="w-1/2">
             <div class="mb-4">
                 <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Idol</label>
-                <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    formControlName="idol_id">
-                    <option *ngFor="let idol of idolList" [value]="idol.id">{{idol.name}}</option>
-                </select>
+                <div class="flex flex-row">
+                    <select
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="idol_id">
+                        <option *ngFor="let idol of idolList" [value]="idol.id">{{idol.name}}</option>
+                    </select>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" mat-raised-button (click)="openDialog('idol')">+ Add</button>
+                </div>
             </div>
-    
+
             <div class="mb-4">
                 <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Fanbase</label>
-                <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    formControlName="fanbase_id">
-                    <option *ngFor="let fanbase of fanbaseList" [value]="fanbase.id">{{fanbase.name}}</option>
-                </select>
+                <div class="flex flex-row">
+                    <select
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="fanbase_id">
+                        <option *ngFor="let fanbase of fanbaseList" [value]="fanbase.id">{{fanbase.name}}</option>
+                    </select>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" (click)="openDialog('fanbase')">+ Add</button>
+                </div>
             </div>
-    
+
             <div class="mb-4">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Event Name</label>
                 <input id="name" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required=""
-                    formControlName="name">
+                    required="" formControlName="name">
             </div>
-    
+
             <div class="mb-4">
                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900">FAQ</label>
                 <textarea id="message" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Leave a comment..."
-                    formControlName="faq"></textarea>
+                    placeholder="Leave a comment..." formControlName="faq"></textarea>
             </div>
-    
+
             <div class="mb-4">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Date</label>
                 <input id="name" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required=""
-                    formControlName="datetime">
+                    required="" formControlName="datetime">
             </div>
-    
+
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Booking</label>
             <div class="flex flex-row">
                 <label class="relative inline-flex items-center mb-4 cursor-pointer">
@@ -57,21 +61,23 @@
                 </label>
                 <input type="text"
                     class="ml-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required=""
-                    *ngIf="eventDetail?.is_booking_need"
-                    formControlName="booking_amount">
+                    required="" *ngIf="eventDetail?.is_booking_need" formControlName="booking_amount">
             </div>
         </div>
         <div class="w-1/2">
             <div class="mb-4">
                 <label for="venue" class="block mb-2 text-sm font-medium text-gray-900">Venue</label>
-                <select
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    formControlName="venue_id">
-                    <option *ngFor="let venue of venueList" [value]="venue.id" selected="{{eventDetail?.venue_id == venue.id}}">{{venue.name}}</option>
-                </select>
+                <div class="flex">
+                    <select
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="venue_id">
+                        <option *ngFor="let venue of venueList" [value]="venue.id"
+                            selected="{{eventDetail?.venue_id == venue.id}}">{{venue.name}}</option>
+                    </select>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" (click)="openDialog('venue')">+ Add</button>
+                </div>
             </div>
-    
+
             <div class="mb-4">
                 <label class="block mb-2 text-sm font-medium text-gray-900" for="large_size">Poster
                     Image</label>
@@ -82,3 +88,17 @@
         </div>
     </div>
 </form>
+
+<div class="flex justify-between p-4 space-x-8 text-gray-500 rounded-lg shadow bg-red-100 border-red-100 absolute right-10 bottom-8"
+    *ngIf="isFail">
+    <div class="flex items-center space-x-2">
+        <span class="material-symbols-outlined icon-red w-5 h-5">
+            error
+        </span>
+        <div class="pl-2 pt-0.5 text-sm font-normal" *ngIf="!isUpdate">Fail to add new event</div>
+        <div class="pl-2 pt-0.5 text-sm font-normal" *ngIf="isUpdate">Fail to update existing event</div>
+    </div>
+    <span class="material-symbols-outlined w-5 h-5">
+        close
+    </span>
+</div>

@@ -42,7 +42,8 @@
             {{event.name}}
         </div>
         <div class="w-1/4">
-            <span class="rounded-lg px-1 py-1 bg-cyan-200">{{event.date[0]}} {{event.start_time[0]}} ~ {{event.end_time[0]}}</span>
+            <span class="rounded-lg px-1 py-1 bg-cyan-200">{{event.date[0]}} {{event.start_time[0]}} ~
+                {{event.end_time[0]}}</span>
         </div>
         <div class="w-1/6">
             {{event.idol_name}}
@@ -55,10 +56,13 @@
         </div>
         <div class="w-1/12">
             <div class="flex flex-row space-x-2 justify-end">
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1" [routerLink]="['/event/detail', event.id]"> edit </a>
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1" [routerLink]="['/booking', event.id]" *ngIf="event.is_booking_need"> confirmation_number
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
+                    [routerLink]="['/event/detail', event.id]"> edit </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
+                    [routerLink]="['/booking', event.id]" *ngIf="event.is_booking_need"> confirmation_number
                 </a>
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"> delete </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1 cursor-pointer"
+                    (click)="deleteEvent(event.id, event.name)"> delete </a>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventDetail } from 'src/app/models/event';
 import { Fanbase } from 'src/app/models/fanbase';
 import { Idol } from 'src/app/models/idol';
@@ -9,6 +9,7 @@ import { EventService } from 'src/app/services/event.service';
 import { FanbaseService } from 'src/app/services/fanbase.service';
 import { IdolService } from 'src/app/services/idol.service';
 import { VenueService } from 'src/app/services/venue.service';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-detail',
@@ -22,6 +23,7 @@ export class EventDetailComponent {
   venueList: Venue[] = [];
   eventDetail: EventDetail | undefined;
   isUpdate: boolean = false;
+  isFail: boolean = false;
   eventTime: string = '';
 
   constructor(
@@ -30,7 +32,9 @@ export class EventDetailComponent {
     private eventService: EventService,
     private idolService: IdolService,
     private fanbaseService: FanbaseService,
-    private venueService: VenueService
+    private venueService: VenueService,
+    private router: Router,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -132,26 +136,85 @@ export class EventDetailComponent {
       });
   }
 
+  openDialog(type: string): void {
+    const dialogRef = this.dialog.open(FormDialog, {
+      width: '250px',
+      data: type,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      var param = this.route.snapshot.paramMap.get('id');
+      if (param != null) {
+        this.isUpdate = true;
+        this.getEvent(param);
+      }
+    });
+  }
+
   onSubmit() {
     if (this.eventDetailForm.valid) {
-      this.eventService.addEvent(this.eventDetailForm.value.name,
-        this.eventDetailForm.value.fanbase_id,
-        this.eventDetailForm.value.idol_id,
-        this.eventDetailForm.value.image_url,
-        this.eventDetailForm.value.faq,
-        this.eventDetailForm.value.is_booking_need,
-        this.eventDetailForm.value.datetime +",",
-        this.eventDetailForm.value.venue_id,)
-        .subscribe(isSuccess => {
-          console.log(isSuccess)
-        });
-      // this.authService.login(email, password)
-      //   .subscribe(token => {
-      //     if(token != undefined){
-      //       localStorage.setItem('token', token);
-      //       this.router.navigate(['/home']);
-      //     }
-      //   });
+      if (this.isUpdate) {
+        const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+
+        this.eventService.updateEvent(
+          this.eventDetailForm.value.name,
+          this.eventDetailForm.value.fanbase_id,
+          this.eventDetailForm.value.idol_id,
+          this.eventDetailForm.value.image_url,
+          this.eventDetailForm.value.faq,
+          this.eventDetailForm.value.is_booking_need,
+          this.eventDetailForm.value.datetime[0],
+          this.eventDetailForm.value.venue_id,
+          id)
+          .subscribe(isSuccess => {
+            if (isSuccess) {
+              sessionStorage.setItem('message', 'Successfully update ' + this.eventDetailForm.value.name);
+              this.router.navigate(['/event']);
+            } else {
+              this.isFail = true;
+            }
+          });
+      } else {
+        this.eventService.addEvent(
+          this.eventDetailForm.value.name,
+          this.eventDetailForm.value.fanbase_id,
+          this.eventDetailForm.value.idol_id,
+          this.eventDetailForm.value.image_url,
+          this.eventDetailForm.value.faq,
+          this.eventDetailForm.value.is_booking_need,
+          this.eventDetailForm.value.datetime[0],
+          this.eventDetailForm.value.venue_id,)
+          .subscribe(isSuccess => {
+            if (isSuccess) {
+              sessionStorage.setItem('message', 'Successfully add ' + this.eventDetailForm.value.name);
+              this.router.navigate(['/event']);
+            } else {
+              this.isFail = true;
+            }
+          });
+      }
     }
+  }
+}
+
+@Component({
+  selector: 'form-dialog',
+  templateUrl: 'form-dialog.html',
+  standalone: true,
+  imports: [MatDialogModule],
+})
+export class FormDialog {
+  constructor(
+    public dialogRef: MatDialogRef<FormDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+  ) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onYesClick(): void {
+    this.dialogRef.close();
   }
 }

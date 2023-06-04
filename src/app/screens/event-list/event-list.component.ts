@@ -23,4 +23,14 @@ export class EventListComponent {
         this.eventList = eventList;
       });
   }
+
+  deleteEvent(event_id:number,name:string){
+    this.eventService.deleteEvent(event_id)
+      .subscribe(isSuccess => {
+        if (isSuccess) {
+          window.location.reload();
+          sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+        }
+      });
+  }
 }
