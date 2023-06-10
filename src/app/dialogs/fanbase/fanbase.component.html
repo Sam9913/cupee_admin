@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Add Fanbase</h1>
+<div mat-dialog-content>
+  <div class="mb-4">
+    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+    <input id="name" type="text"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      required=""
+      (keyup)="setName($event)">
+  </div>
+
+  <div class="mb-4">
+    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+    <input id="email" type="text"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      required=""
+      (keyup)="setEmail($event)">
+  </div>
+
+  <div class="mb-4">
+    <label for="social_media" class="block mb-2 text-sm font-medium text-gray-900">Social Media</label>
+    <div id="social_media" class="flex mb-2">
+      <span
+        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+        <img src="../../../assets/icons/facebook.png" class="w-3" />
+      </span>
+      <input type="text" id="facebook"
+        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+        (keyup)="setFacebookLink($event)">
+    </div>
+
+    <div class="flex mb-2">
+      <span
+        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+        <img src="../../../assets/icons/instagram.png" class="w-3" />
+      </span>
+      <input type="text" id="instagram"
+        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+        (keyup)="setInstagramUsername($event)">
+    </div>
+
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md">
+        <img src="../../../assets/icons/twitter.png" class="w-3" />
+      </span>
+      <input type="text" id="twitter"
+        class="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 "
+        (keyup)="setTwitterUsername($event)">
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()" [mat-dialog-close]="false">Cancel</button>
+  <button mat-button (click)="onSubmit()" [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</div>

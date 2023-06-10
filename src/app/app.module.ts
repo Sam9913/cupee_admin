@@ -20,6 +20,7 @@ import { VenueListComponent } from './screens/venue-list/venue-list.component';
 import { VenueDetailComponent } from './screens/venue-detail/venue-detail.component';
 import { LoginComponent } from './screens/login/login.component';
 import { SettingComponent } from './screens/setting/setting.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { SettingComponent } from './screens/setting/setting.component';
     AppRoutingModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatFormFieldModule,
     RouterModule.forRoot([
       { path: '', component: DashboardComponent },
       { path: 'events', component: EventListComponent },

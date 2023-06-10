@@ -14,7 +14,8 @@
                         formControlName="idol_id">
                         <option *ngFor="let idol of idolList" [value]="idol.id">{{idol.name}}</option>
                     </select>
-                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" mat-raised-button (click)="openDialog('idol')">+ Add</button>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" mat-raised-button
+                        (click)="openDialog('idol')">+ Add</button>
                 </div>
             </div>
 
@@ -26,7 +27,8 @@
                         formControlName="fanbase_id">
                         <option *ngFor="let fanbase of fanbaseList" [value]="fanbase.id">{{fanbase.name}}</option>
                     </select>
-                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" (click)="openDialog('fanbase')">+ Add</button>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1"
+                        (click)="openDialog('fanbase')">+ Add</button>
                 </div>
             </div>
 
@@ -74,8 +76,12 @@
                         <option *ngFor="let venue of venueList" [value]="venue.id"
                             selected="{{eventDetail?.venue_id == venue.id}}">{{venue.name}}</option>
                     </select>
-                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1" (click)="openDialog('venue')">+ Add</button>
+                    <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1"
+                        (click)="openDialog('venue')">+ Add</button>
                 </div>
+                <iframe class="mt-2 w-full e2e-iframe-trusted-src" height="310px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    [src]="safeSrc">
+                </iframe>
             </div>
 
             <div class="mb-4">

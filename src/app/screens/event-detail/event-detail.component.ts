@@ -1,4 +1,5 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventDetail } from 'src/app/models/event';
@@ -10,6 +11,10 @@ import { FanbaseService } from 'src/app/services/fanbase.service';
 import { IdolService } from 'src/app/services/idol.service';
 import { VenueService } from 'src/app/services/venue.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { FanbaseComponent } from 'src/app/dialogs/fanbase/fanbase.component';
+import { IdolComponent } from 'src/app/dialogs/idol/idol.component';
+import { VenueComponent } from 'src/app/dialogs/venue/venue.component';
+import { pairwise, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-event-detail',
@@ -25,6 +30,8 @@ export class EventDetailComponent {
   isUpdate: boolean = false;
   isFail: boolean = false;
   eventTime: string = '';
+  src:string='';
+  safeSrc:SafeResourceUrl = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,7 +41,8 @@ export class EventDetailComponent {
     private fanbaseService: FanbaseService,
     private venueService: VenueService,
     private router: Router,
-    public dialog: MatDialog
+    private sanitizer: DomSanitizer,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -58,6 +66,12 @@ export class EventDetailComponent {
     this.getIdolList();
     this.getFanbaseList();
     this.getVenueList();
+
+    this.eventDetailForm.valueChanges
+      .pipe(startWith(null), pairwise())
+      .subscribe(([prev, next]: [any, any]) => {
+        this.setSelectedVenue(next.venue_id);
+      });
   }
 
   get nameControl() {
@@ -126,6 +140,7 @@ export class EventDetailComponent {
     this.venueService.getVenue()
       .subscribe(venueList => {
         this.venueList = venueList;
+        this.setSelectedVenue(1);
       });
   }
 
@@ -136,20 +151,38 @@ export class EventDetailComponent {
       });
   }
 
-  openDialog(type: string): void {
-    const dialogRef = this.dialog.open(FormDialog, {
-      width: '250px',
-      data: type,
-    });
+  setSelectedVenue(venue_id: number) {
+    var selectedVenue = this.venueList.find((value) => value.id == venue_id);
+    this.src = 'https://maps.google.com/maps?q=' + (selectedVenue?.latitude ?? 0) + ',' + (selectedVenue?.longitude ?? 0) + '&hl=en&z=14&output=embed';
+    this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      var param = this.route.snapshot.paramMap.get('id');
-      if (param != null) {
-        this.isUpdate = true;
-        this.getEvent(param);
-      }
-    });
+  openDialog(type: string): void {
+    if (type == 'idol') {
+      const dialogRef = this.dialog.open(IdolComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getIdolList();
+        }
+      });
+    } else if (type == 'fanbase') {
+      const dialogRef = this.dialog.open(FanbaseComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getFanbaseList();
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(VenueComponent);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getVenueList();
+        }
+      });
+    }
   }
 
   onSubmit() {
@@ -195,26 +228,5 @@ export class EventDetailComponent {
           });
       }
     }
-  }
-}
-
-@Component({
-  selector: 'form-dialog',
-  templateUrl: 'form-dialog.html',
-  standalone: true,
-  imports: [MatDialogModule],
-})
-export class FormDialog {
-  constructor(
-    public dialogRef: MatDialogRef<FormDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
-  ) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onYesClick(): void {
-    this.dialogRef.close();
   }
 }
