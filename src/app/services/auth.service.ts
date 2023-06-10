@@ -34,6 +34,15 @@ export class AuthService {
     );
   }
 
+  changePassword(password:string): Observable<boolean> {
+    const token = localStorage.getItem('token');
+
+    return this.http.post<boolean>(this.baseUrl + 'updatePassword.php', { "Authorization": token, password }, this.httpOptions).pipe(
+      tap((token: boolean) => this.log(`update password w/ id=${token}`)),
+      catchError(this.handleError<boolean>('updatePassword'))
+    );
+  }
+
   getUserDetail(): Observable<boolean> {
     const token = localStorage.getItem('token');
 

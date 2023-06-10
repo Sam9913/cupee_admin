@@ -1,22 +1,60 @@
-<div class="flex flex-col">
-    <span class="font-semibold text-2xl">Copyright</span>
-    <div><a href="https://www.freepik.com/free-vector/teenager-concept-illustration_8610297.htm#page=2&query=gathering&position=23&from_view=author"
-            class="text-blue-700 underline">Image
-            by storyset</a> on Freepik</div>
-    <div><a href="https://www.freepik.com/free-vector/appreciation-concept-illustration_5357571.htm#query=gathering&position=49&from_view=author"
-            class="text-blue-700 underline">Image
-            by storyset</a> on Freepik</div>
-    <div> <a href="https://www.freepik.com/free-vector/appreciation-concept-illustration_5357571.htm#query=gathering&position=49&from_view=author"
-            class="text-blue-700 underline">Image
-            by storyset</a> on Freepik</div>
-    <div> <a href="https://www.flaticon.com/free-icons/twitter" title="twitter icons"
-            class="text-blue-700 underline">Twitter icons created by Freepik -
-            Flaticon</a></div>
-    <div><a href="https://www.flaticon.com/free-icons/facebook" title="facebook icons"
-            class="text-blue-700 underline">Facebook icons created by Freepik
-            -
-            Flaticon</a></div>
-    <div><a href="https://www.flaticon.com/free-icons/instagram-logo" title="instagram logo icons"
-            class="text-blue-700 underline">Instagram logo icons
-            created by Laisa Islam Ani - Flaticon</a></div>
+<div class="flex flex-row space-x-1">
+        <div class="w-1/8 text-center" (click)="changeSelectedIndex(0)">
+                <span>Change Password</span>
+                <div class="h-1 bg-black" *ngIf="selectedIndex == 0"></div>
+        </div>
+        <div class="w-1/12 text-center" (click)="changeSelectedIndex(1)">
+                <span>Copyright</span>
+                <div class="h-1 bg-black" *ngIf="selectedIndex == 1"></div>
+        </div>
+</div>
+
+<form [formGroup]="settingForm" class="mt-4" *ngIf="selectedIndex == 0">
+        <div class="mb-4">
+                <label for="old_password" class="block mb-2 text-sm font-medium text-gray-900">Old Password</label>
+                <input id="old_password" type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="old_password">
+        </div>
+
+        <div class="mb-4">
+                <label for="new_password" class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
+                <input id="new_password" type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="new_password">
+        </div>
+
+        <div class="mb-4">
+                <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900">Confirm
+                        Password</label>
+                <input id="confirm_password" type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        formControlName="confirm_password">
+        </div>
+
+        <button type="submit" class="block w-full mt-6 py-2 rounded-md text-white font-semibold flex justify-center space-x-2"
+                style="background-color: #8A6244;">
+                <span class="material-symbols-outlined"> save </span> <span>Save</span></button>
+</form>
+
+<div class="flex flex-col mt-4" *ngIf="selectedIndex == 1">
+        <div>1. <a href="https://www.freepik.com/free-vector/teenager-concept-illustration_8610297.htm#page=2&query=gathering&position=23&from_view=author"
+                        class="text-blue-700 underline">Image
+                        by storyset</a> on Freepik</div>
+        <div>2. <a href="https://www.freepik.com/free-vector/appreciation-concept-illustration_5357571.htm#query=gathering&position=49&from_view=author"
+                        class="text-blue-700 underline">Image
+                        by storyset</a> on Freepik</div>
+        <div>3. <a href="https://www.freepik.com/free-vector/appreciation-concept-illustration_5357571.htm#query=gathering&position=49&from_view=author"
+                        class="text-blue-700 underline">Image
+                        by storyset</a> on Freepik</div>
+        <div>4. <a href="https://www.flaticon.com/free-icons/twitter" title="twitter icons"
+                        class="text-blue-700 underline">Twitter icons created by Freepik -
+                        Flaticon</a></div>
+        <div>5. <a href="https://www.flaticon.com/free-icons/facebook" title="facebook icons"
+                        class="text-blue-700 underline">Facebook icons created by Freepik
+                        -
+                        Flaticon</a></div>
+        <div>6. <a href="https://www.flaticon.com/free-icons/instagram-logo" title="instagram logo icons"
+                        class="text-blue-700 underline">Instagram logo icons
+                        created by Laisa Islam Ani - Flaticon</a></div>
 </div>
