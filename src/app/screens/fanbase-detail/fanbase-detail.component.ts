@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FanbaseService } from 'src/app/services/fanbase.service';
+import { SharedServices } from 'src/app/services/shared-services';
 
 @Component({
   selector: 'app-fanbase-detail',
@@ -17,7 +18,8 @@ export class FanbaseDetailComponent {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private fanbaseService: FanbaseService,
-    private router: Router
+    private router: Router,
+    private sharedServices: SharedServices
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,7 @@ export class FanbaseDetailComponent {
   }
 
   getFanbase(param: string) {
+    this.sharedServices.changeLoading(true);
     const id = parseInt(param, 10);
     this.fanbaseService.getSpecificFanbase(id)
       .subscribe(fanbaseDetail => {
@@ -65,10 +68,12 @@ export class FanbaseDetailComponent {
         this.twitterUsernameControl.setValue(fanbaseDetail.twitter_username);
         this.facebookLinkControl.setValue(fanbaseDetail.facebook_link ?? '');
         this.instagramUsernameControl.setValue(fanbaseDetail.instagram_username ?? '');
+        this.sharedServices.changeLoading(false);
       });
   }
 
   onSubmit() {
+    this.sharedServices.changeLoading(true);
     if (this.fanbaseDetailForm.valid) {
       if(this.isUpdate){
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
@@ -81,8 +86,9 @@ export class FanbaseDetailComponent {
           this.fanbaseDetailForm.value.facebook_link,
           id
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully update existing fanbase');
+            this.sharedServices.changeMessage('Successfully update existing fanbase');
             this.router.navigate(['/fanbase']);
           } else {
             this.isFail = true;
@@ -96,8 +102,9 @@ export class FanbaseDetailComponent {
           this.fanbaseDetailForm.value.instagram_username,
           this.fanbaseDetailForm.value.facebook_link
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully update existing fanbase');
+            this.sharedServices.changeMessage('Successfully update existing fanbase');
             this.router.navigate(['/fanbase']);
           } else {
             this.isFail = true;

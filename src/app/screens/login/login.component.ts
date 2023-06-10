@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { SharedServices } from 'src/app/services/shared-services';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,13 @@ export class LoginComponent {
   loginForm!: FormGroup;
   submitted = false;
   hide = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private sharedServices: SharedServices
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -62,13 +70,15 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.sharedServices.changeLoading(true);
     this.submitted = true;
     if (this.loginForm.valid) {
       const email = this.loginForm.value.email.trim();
       const password = this.loginForm.value.password;
       this.authService.login(email, password)
         .subscribe(token => {
-          if(token != undefined){
+          this.sharedServices.changeLoading(false);
+          if (token != undefined) {
             localStorage.setItem('token', token);
             this.router.navigate(['/home']);
           }
@@ -76,5 +86,4 @@ export class LoginComponent {
     }
   }
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 }

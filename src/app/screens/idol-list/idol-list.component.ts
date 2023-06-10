@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Idol } from 'src/app/models/idol';
 import { IdolService } from 'src/app/services/idol.service';
+import { SharedServices } from 'src/app/services/shared-services';
 
 @Component({
   selector: 'app-idol-list',
@@ -11,25 +12,32 @@ import { IdolService } from 'src/app/services/idol.service';
 export class IdolListComponent {
   idolList: Idol[] = [];
 
-  constructor(private idolService: IdolService, private router: Router) { }
+  constructor(
+    private idolService: IdolService, 
+    private router: Router,
+    private sharedServices: SharedServices
+    ) { }
 
   ngOnInit() {
     this.getIdolList();
   }
 
   getIdolList() {
+    this.sharedServices.changeLoading(true);
     this.idolService.getIdol()
       .subscribe(idolList => {
+        this.sharedServices.changeLoading(false);
         this.idolList = idolList;
       });
   }
 
   deleteIdol(idol_id: number, name: string) {
+    this.sharedServices.changeLoading(true);
     this.idolService.deleteIdol(idol_id)
       .subscribe(isSuccess => {
+        this.sharedServices.changeLoading(false);
         if (isSuccess) {
-          window.location.reload();
-          sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+          this.sharedServices.changeMessage('Sucessfully delete ' + name);
         }
       });
   }

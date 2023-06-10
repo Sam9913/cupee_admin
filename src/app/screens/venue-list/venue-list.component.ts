@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Venue } from 'src/app/models/venue';
+import { SharedServices } from 'src/app/services/shared-services';
 import { VenueService } from 'src/app/services/venue.service';
 
 @Component({
@@ -11,25 +12,31 @@ import { VenueService } from 'src/app/services/venue.service';
 export class VenueListComponent {
   venueList: Venue[] = [];
 
-  constructor(private venueService: VenueService, private router: Router) { }
+  constructor(
+    private venueService: VenueService,
+    private router: Router,
+    private sharedServices: SharedServices,
+  ) { }
 
   ngOnInit() {
     this.getVenueList();
   }
 
   getVenueList() {
+    this.sharedServices.changeLoading(true);
     this.venueService.getVenue()
       .subscribe(venueList => {
         this.venueList = venueList;
+        this.sharedServices.changeLoading(false);
       });
   }
 
   deleteVenue(venue_id: number, name: string) {
+    this.sharedServices.changeLoading(true);
     this.venueService.deleteVenue(venue_id).subscribe(isSuccess => {
       if (isSuccess) {
-        console.log(isSuccess);
-        window.location.reload(); 
-        sessionStorage.setItem('message', 'Sucessfully delete ' + name);
+        this.sharedServices.changeMessage('Sucessfully delete ' + name);
+        this.sharedServices.changeLoading(false);
       }
     });
   }

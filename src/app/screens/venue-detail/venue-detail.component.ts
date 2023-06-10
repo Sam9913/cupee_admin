@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedServices } from 'src/app/services/shared-services';
 import { VenueService } from 'src/app/services/venue.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class VenueDetailComponent {
     private route: ActivatedRoute,
     private venueService: VenueService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private sharedServices: SharedServices
   ) { }
 
   ngOnInit() {
@@ -58,6 +60,8 @@ export class VenueDetailComponent {
   }
 
   getVenue(param: string) {
+    this.sharedServices.changeLoading(true);
+
     const id = parseInt(param, 10);
     this.venueService.getSpecificVenue(id)
       .subscribe(venueDetail => {
@@ -66,6 +70,7 @@ export class VenueDetailComponent {
         this.longitudeControl.setValue(venueDetail.longitude);
         this.latitudeControl.setValue(venueDetail.latitude);
         this.setMapCoordinate(venueDetail.latitude, venueDetail.longitude);
+        this.sharedServices.changeLoading(false);
       });
   }
 
@@ -108,7 +113,7 @@ export class VenueDetailComponent {
           id
         ).subscribe(isSuccess => {
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully update ' + this.venueDetailForm.value.name);
+            this.sharedServices.changeMessage('Successfully update ' + this.venueDetailForm.value.name);
             this.router.navigate(['/venue']);
           } else {
             this.isFail = true;
@@ -125,7 +130,7 @@ export class VenueDetailComponent {
           this.venueDetailForm.value.latitude
         ).subscribe(isSuccess => {
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully add ' + this.venueDetailForm.value.name);
+            this.sharedServices.changeMessage('Successfully add ' + this.venueDetailForm.value.name);
             this.router.navigate(['/venue']);
           } else {
             this.isFail = true;

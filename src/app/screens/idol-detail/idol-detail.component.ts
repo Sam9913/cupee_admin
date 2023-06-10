@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IdolService } from 'src/app/services/idol.service';
+import { SharedServices } from 'src/app/services/shared-services';
 
 @Component({
   selector: 'app-idol-detail',
@@ -17,7 +18,8 @@ export class IdolDetailComponent {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private idolService: IdolService,
-    private router: Router
+    private router: Router,
+    private sharedServices: SharedServices
   ) { }
 
   ngOnInit() {
@@ -47,12 +49,14 @@ export class IdolDetailComponent {
   }
 
   getIdol(param: string) {
+    this.sharedServices.changeLoading(true);
     const id = parseInt(param, 10);
     this.idolService.getSpecificIdol(id)
       .subscribe(idolDetail => {
         this.nameControl.setValue(idolDetail.name);
         this.memberAmountControl.setValue(idolDetail.member_amount);
         this.genderControl.setValue(idolDetail.gender);
+        this.sharedServices.changeLoading(false);
       });
   }
 
@@ -75,6 +79,7 @@ export class IdolDetailComponent {
   }
 
   onSubmit() {
+    this.sharedServices.changeLoading(true);
     if (this.idolDetailForm.valid) {
       if (this.isUpdate) {
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
@@ -85,8 +90,9 @@ export class IdolDetailComponent {
           this.idolDetailForm.value.member_amount,
           id
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully update ' + this.idolDetailForm.value.name);
+            this.sharedServices.changeMessage('Successfully update ' + this.idolDetailForm.value.name);
             this.router.navigate(['/idol']);
           } else {
             this.isFail = true;
@@ -98,8 +104,9 @@ export class IdolDetailComponent {
           this.idolDetailForm.value.gender,
           this.idolDetailForm.value.member_amount,
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
-            sessionStorage.setItem('message', 'Successfully add ' + this.idolDetailForm.value.name);
+            this.sharedServices.changeMessage('Successfully add ' + this.idolDetailForm.value.name);
             this.router.navigate(['/idol']);
           } else {
             this.isFail = true;

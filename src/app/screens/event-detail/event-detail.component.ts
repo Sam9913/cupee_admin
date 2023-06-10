@@ -15,6 +15,7 @@ import { FanbaseComponent } from 'src/app/dialogs/fanbase/fanbase.component';
 import { IdolComponent } from 'src/app/dialogs/idol/idol.component';
 import { VenueComponent } from 'src/app/dialogs/venue/venue.component';
 import { pairwise, startWith } from 'rxjs';
+import { SharedServices } from 'src/app/services/shared-services';
 
 @Component({
   selector: 'app-event-detail',
@@ -30,8 +31,8 @@ export class EventDetailComponent {
   isUpdate: boolean = false;
   isFail: boolean = false;
   eventTime: string = '';
-  src:string='';
-  safeSrc:SafeResourceUrl = '';
+  src: string = '';
+  safeSrc: SafeResourceUrl = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,6 +44,7 @@ export class EventDetailComponent {
     private router: Router,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
+    private sharedServices: SharedServices
   ) { }
 
   ngOnInit() {
@@ -111,6 +113,7 @@ export class EventDetailComponent {
   }
 
   getEvent(param: string) {
+    this.sharedServices.changeLoading(true);
     const id = parseInt(param, 10);
     this.eventService.getSpecificEvent(id)
       .subscribe(eventDetail => {
@@ -126,28 +129,35 @@ export class EventDetailComponent {
         this.isBookingNeedControl.setValue(eventDetail.is_booking_need);
         this.bookingAmountControl.setValue(eventDetail.booking_amount);
         this.datetimeControl.setValue(eventDetail.datetime);
+        this.sharedServices.changeLoading(false);
       });
   }
 
   getIdolList() {
+    this.sharedServices.changeLoading(true);
     this.idolService.getIdol()
       .subscribe(idolList => {
         this.idolList = idolList;
+        this.sharedServices.changeLoading(false);
       });
   }
 
   getVenueList() {
+    this.sharedServices.changeLoading(true);
     this.venueService.getVenue()
       .subscribe(venueList => {
         this.venueList = venueList;
         this.setSelectedVenue(1);
+        this.sharedServices.changeLoading(false);
       });
   }
 
   getFanbaseList() {
+    this.sharedServices.changeLoading(true);
     this.fanbaseService.getFanbase()
       .subscribe(fanbaseList => {
         this.fanbaseList = fanbaseList;
+        this.sharedServices.changeLoading(false);
       });
   }
 
@@ -186,6 +196,7 @@ export class EventDetailComponent {
   }
 
   onSubmit() {
+    this.sharedServices.changeLoading(true);
     if (this.eventDetailForm.valid) {
       if (this.isUpdate) {
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
@@ -201,8 +212,9 @@ export class EventDetailComponent {
           this.eventDetailForm.value.venue_id,
           id)
           .subscribe(isSuccess => {
+            this.sharedServices.changeLoading(false);
             if (isSuccess) {
-              sessionStorage.setItem('message', 'Successfully update ' + this.eventDetailForm.value.name);
+              this.sharedServices.changeMessage('Successfully update ' + this.eventDetailForm.value.name);
               this.router.navigate(['/event']);
             } else {
               this.isFail = true;
@@ -219,8 +231,9 @@ export class EventDetailComponent {
           this.eventDetailForm.value.datetime[0],
           this.eventDetailForm.value.venue_id,)
           .subscribe(isSuccess => {
+            this.sharedServices.changeLoading(false);
             if (isSuccess) {
-              sessionStorage.setItem('message', 'Successfully add ' + this.eventDetailForm.value.name);
+              this.sharedServices.changeMessage('Successfully add ' + this.eventDetailForm.value.name);
               this.router.navigate(['/event']);
             } else {
               this.isFail = true;
