@@ -7,15 +7,16 @@
     <div class="flex flex-row space-x-10 px-10 py-2">
         <div class="w-1/2">
             <div class="mb-4">
-                <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
-                <input id="idol" type="text"
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+                <input id="name" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required="" formControlName="name">
             </div>
 
             <div class="mb-4">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Gender</label>
+                <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">Gender</label>
                 <select
+                    id="gender"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     formControlName="gender">
                     <option value="0">Male</option>
@@ -25,9 +26,9 @@
             </div>
 
             <div class="mb-4">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Member Amount</label>
+                <label for="member_amount" class="block mb-2 text-sm font-medium text-gray-900">Member Amount</label>
                 <div class="relative">
-                    <input id="name" type="text"
+                    <input id="member_amount" type="text"
                         class="block w-full p-2.5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                         required="" formControlName="member_amount">
                     <div
