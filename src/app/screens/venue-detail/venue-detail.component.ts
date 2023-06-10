@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VenueService } from 'src/app/services/venue.service';
 
@@ -12,12 +13,15 @@ export class VenueDetailComponent {
   venueDetailForm!: FormGroup;
   isUpdate: boolean = false;
   isFail: boolean = false;
+  src: string = '';
+  safeSrc: SafeResourceUrl = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private venueService: VenueService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -32,6 +36,8 @@ export class VenueDetailComponent {
     if (param != null) {
       this.isUpdate = true;
       this.getVenue(param);
+    } else {
+      this.setMapCoordinate(0, 0);
     }
   }
 
@@ -59,12 +65,39 @@ export class VenueDetailComponent {
         this.addressControl.setValue(venueDetail.address);
         this.longitudeControl.setValue(venueDetail.longitude);
         this.latitudeControl.setValue(venueDetail.latitude);
+        this.setMapCoordinate(venueDetail.latitude, venueDetail.longitude);
       });
+  }
+
+  setAddress(event: any) {
+    this.venueService.getLongitudeLatitude(event.target.value)
+      .subscribe(result => {
+        if (result) {
+          console.log(result)
+          this.setMapCoordinate(
+            parseFloat(result[0].lat),
+            parseFloat(result[0].lon),
+          );
+        }
+      })
+  }
+
+  setMapCoordinate(latitude: number, longitude: number) {
+    this.src = 'https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&hl=en&z=14&output=embed';
+    this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
   }
 
   onSubmit() {
     if (this.venueDetailForm.valid) {
-      if(this.isUpdate){
+      this.venueService.getLongitudeLatitude(this.venueDetailForm.value.address)
+        .subscribe(result => {
+          if (result) {
+            this.venueDetailForm.value.longitude = parseFloat(result[0].lon);
+            this.venueDetailForm.value.latitude = parseFloat(result[0].lat);
+          }
+        });
+
+      if (this.isUpdate) {
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
         this.venueService.updateVenue(
@@ -84,7 +117,7 @@ export class VenueDetailComponent {
             }, 1000);
           }
         });
-      }else{
+      } else {
         this.venueService.addVenue(
           this.venueDetailForm.value.name,
           this.venueDetailForm.value.address,

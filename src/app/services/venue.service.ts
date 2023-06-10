@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Venue } from '../models/venue';
+import { MapData } from '../models/map_data';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class VenueService {
     );
   }
 
-  addVenue(name: string, address: string, longitude: string, latitude: string): Observable<boolean> {
+  addVenue(name: string, address: string, longitude: number, latitude: number): Observable<boolean> {
     const token = localStorage.getItem('token');
 
     return this.http.post<boolean>(this.baseUrl + 'addVenue.php', { name, address, longitude, latitude, "Authorization": token }, this.httpOptions).pipe(
@@ -50,7 +51,7 @@ export class VenueService {
     );
   }
 
-  updateVenue(name: string, address: string, longitude: string, latitude: string, venue_id: number): Observable<boolean> {
+  updateVenue(name: string, address: string, longitude: number, latitude: number, venue_id: number): Observable<boolean> {
     const token = localStorage.getItem('token');
 
     return this.http.post<boolean>(this.baseUrl + 'updateVenue.php', { name, address, longitude, latitude, venue_id, "Authorization": token }, this.httpOptions).pipe(
@@ -65,6 +66,13 @@ export class VenueService {
     return this.http.post<boolean>(this.baseUrl + 'deleteVenue.php', { venue_id, "Authorization": token }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`deleteVenue w/ id=${token}`)),
       catchError(this.handleError<boolean>('deleteVenue'))
+    );
+  }
+
+  getLongitudeLatitude(address:string): Observable<MapData[]> {
+    return this.http.get<MapData[]>('https://geocode.maps.co/search', { ...this.httpOptions, params: new HttpParams().append('q', address) }).pipe(
+      tap(_ => this.log('fetched Longitude and Latitude')),
+      catchError(this.handleError<MapData[]>('getLongitudeLatitude'))
     );
   }
 

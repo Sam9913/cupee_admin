@@ -18,15 +18,15 @@
                 <input id="address" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required=""
-                    formControlName="address">
+                    formControlName="address"
+                    (keyup)="setAddress($event)">
             </div>
         </div>
         <div class="w-1/2">
             <div class="mb-4">
                 <label for="map" class="block mb-2 text-sm font-medium text-gray-900">Map</label>
-                <input id="map" type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required="">
+                <iframe class="mt-2 w-full e2e-iframe-trusted-src" height="310px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    [src]="safeSrc"></iframe>
             </div>
         </div>
     </div>
