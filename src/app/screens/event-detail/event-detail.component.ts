@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,12 +10,14 @@ import { EventService } from 'src/app/services/event.service';
 import { FanbaseService } from 'src/app/services/fanbase.service';
 import { IdolService } from 'src/app/services/idol.service';
 import { VenueService } from 'src/app/services/venue.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { FanbaseComponent } from 'src/app/dialogs/fanbase/fanbase.component';
 import { IdolComponent } from 'src/app/dialogs/idol/idol.component';
 import { VenueComponent } from 'src/app/dialogs/venue/venue.component';
 import { pairwise, startWith } from 'rxjs';
 import { SharedServices } from 'src/app/services/shared-services';
+import { Storage, ref, uploadBytesResumable, listAll } from '@angular/fire/storage';
+import { deleteObject, getDownloadURL } from 'firebase/storage';
 
 @Component({
   selector: 'app-event-detail',
@@ -23,16 +25,20 @@ import { SharedServices } from 'src/app/services/shared-services';
   styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent {
+  private readonly storage: Storage = inject(Storage);
+
   eventDetailForm!: FormGroup;
   idolList: Idol[] = [];
   fanbaseList: Fanbase[] = [];
   venueList: Venue[] = [];
   eventDetail: EventDetail | undefined;
-  isUpdate: boolean = false;
-  isFail: boolean = false;
+  safeSrc: SafeResourceUrl = '';
   eventTime: string = '';
   src: string = '';
-  safeSrc: SafeResourceUrl = '';
+  imageList: Image[] = [];
+  isUpdate: boolean = false;
+  isFail: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,7 +50,8 @@ export class EventDetailComponent {
     private router: Router,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
-    private sharedServices: SharedServices
+    private sharedServices: SharedServices,
+    public viewContainerRef: ViewContainerRef
   ) { }
 
   ngOnInit() {
@@ -57,7 +64,7 @@ export class EventDetailComponent {
       faq: ['', Validators.required],
       datetime: ['', Validators.required],
       is_booking_need: [false],
-      booking_amount: [0],
+      booking_amount: [0, Validators.pattern("^[0-9]*$")],
     });
 
     var param = this.route.snapshot.paramMap.get('id');
@@ -73,7 +80,12 @@ export class EventDetailComponent {
       .pipe(startWith(null), pairwise())
       .subscribe(([prev, next]: [any, any]) => {
         this.setSelectedVenue(next.venue_id);
+        this.getImageList(next.image_url);
       });
+  }
+
+  submittedControl(formControlName: string) {
+    return (this.eventDetailForm.controls[formControlName].touched || this.submitted);
   }
 
   get nameControl() {
@@ -111,6 +123,93 @@ export class EventDetailComponent {
   get bookingAmountControl() {
     return this.eventDetailForm.controls['booking_amount'];
   }
+
+  checkNameRequired() {
+    var required: boolean = false;
+    if (this.nameControl.errors != null) {
+      required = this.nameControl.errors['required'];
+    }
+    return this.submittedControl('name') && required;
+  }
+
+  checkFaqRequired() {
+    var required: boolean = false;
+    if (this.faqControl.errors != null) {
+      required = this.faqControl.errors['required'];
+    }
+    return this.submittedControl('faq') && required;
+  }
+
+  checkDateTimeRequired() {
+    var required: boolean = false;
+    if (this.datetimeControl.errors != null) {
+      required = this.datetimeControl.errors['required'];
+    }
+    return this.submittedControl('datetime') && required;
+  }
+
+  checkDateTimeFormat() {
+    // var format: boolean = false;
+    // if (this.eventDetailForm.value.datetime[0] != null) {
+    //   console.log(this.eventDetailForm.value.datetime[0].substring(0, 10));
+    // }
+    // return this.submittedControl('email') && format;
+    return false;
+  }
+
+  getImageList(name: string) {
+    const storageRef = ref(this.storage);
+    listAll(storageRef).then(obj => {
+      obj.items.forEach((item) => {
+        if (item.name == name) {
+          const newRef = ref(this.storage, item.name);
+          getDownloadURL(newRef).then(url => {
+            this.imageList.push({ url, name: item.name });
+          })
+        }
+      });
+    })
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const fileName = file.name;
+      const formData = new FormData();
+
+      const fileRef = ref(this.storage, fileName);
+      uploadBytesResumable(fileRef, file);
+    }
+  }
+
+  deleteFile(name: string) {
+    const storageRef = ref(this.storage, name);
+    deleteObject(storageRef).then(() => {
+      var indexOfDelete = this.imageList.findIndex((element) => {
+        return element.name == name;
+      });
+      this.imageList.splice(indexOfDelete, 1);
+    });
+  }
+
+  addLimitAmount() {
+    var value = this.eventDetailForm.value.booking_amount;
+    if (value == '') {
+      this.bookingAmountControl.setValue(1);
+    } else {
+      this.bookingAmountControl.setValue(parseInt(value, 10) + 1);
+    }
+  }
+
+  deductLimitAmount() {
+    var value = this.eventDetailForm.value.booking_amount;
+    if (value == '' || value == '1') {
+      this.bookingAmountControl.setValue(0);
+    } else {
+      this.bookingAmountControl.setValue(parseInt(value, 10) - 1);
+    }
+  }
+
 
   getEvent(param: string) {
     this.sharedServices.changeLoading(true);
@@ -242,4 +341,9 @@ export class EventDetailComponent {
       }
     }
   }
+}
+
+export interface Image {
+  url: string;
+  name: string;
 }

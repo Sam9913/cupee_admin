@@ -1,8 +1,7 @@
 <div class="h-screen md:flex">
     <div class="flex md:w-96 justify-center py-10 items-center bg-gray-100">
         <form class="bg-gray-100" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
-            <p class="text-sm font-normal text-gray-600 mb-7">No Account? Register here</p>
+            <h1 class="text-gray-800 font-bold text-2xl mb-7">Welcome Back!</h1>
 
             <!--Email field-->
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
@@ -20,7 +19,7 @@
                 Email is required
             </span>
             <span class="text-red-500" *ngIf="checkEmailFormat()">
-                Enter a vaild email address
+                Enter a vaild email address, example: test@tmail.com
             </span>
             <div class=" mb-4"></div>
 
@@ -37,7 +36,7 @@
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer" *ngIf="!hide" (click)="changeHide()"> visibility_off </span>
                 <span class="material-symbols-outlined text-gray-400 cursor-pointer" *ngIf="hide" (click)="changeHide()"> visibility </span>
             </div>
-            <!--Error handling for email-->
+            <!--Error handling for password-->
             <span class="text-red-500" *ngIf="checkPasswordRequired()">
                 Password is required
             </span>

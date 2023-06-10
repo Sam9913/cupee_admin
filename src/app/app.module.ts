@@ -21,6 +21,9 @@ import { VenueDetailComponent } from './screens/venue-detail/venue-detail.compon
 import { LoginComponent } from './screens/login/login.component';
 import { SettingComponent } from './screens/setting/setting.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
       { path: 'idols/:idolId', component: IdolDetailComponent },
       { path: 'venues', component: VenueListComponent },
       { path: 'venues/:venueId', component: VenueDetailComponent },
-    ])
+    ]),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage()),
   ],
   providers: [],
   bootstrap: [AppComponent]

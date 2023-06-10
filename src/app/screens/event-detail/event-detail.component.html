@@ -6,6 +6,7 @@
     </div>
     <div class="flex flex-row space-x-10 px-10 py-2">
         <div class="w-1/2">
+            <!--Idol Field-->
             <div class="mb-4">
                 <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Idol</label>
                 <div class="flex flex-row">
@@ -19,8 +20,9 @@
                 </div>
             </div>
 
+            <!--Fanbase field-->
             <div class="mb-4">
-                <label for="idol" class="block mb-2 text-sm font-medium text-gray-900">Fanbase</label>
+                <label for="fanbase" class="block mb-2 text-sm font-medium text-gray-900">Fanbase</label>
                 <div class="flex flex-row">
                     <select
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -32,41 +34,66 @@
                 </div>
             </div>
 
+            <!--Name Field-->
             <div class="mb-4">
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Event Name</label>
                 <input id="name" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required="" formControlName="name">
+                <!--Error handling for name-->
+                <span class="text-red-500" *ngIf="checkNameRequired()">
+                    Event Name is required
+                </span>
             </div>
 
+            <!--Faq Field-->
             <div class="mb-4">
                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900">FAQ</label>
                 <textarea id="message" rows="4"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Leave a comment..." formControlName="faq"></textarea>
+                <!--Error handling for faq-->
+                <span class="text-red-500" *ngIf="checkFaqRequired()">
+                    FAQ is required
+                </span>
             </div>
 
+            <!--Date Field-->
             <div class="mb-4">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Date</label>
-                <input id="name" type="text"
+                <label for="date" class="block mb-2 text-sm font-medium text-gray-900">Date & Time</label>
+                <input id="date" type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required="" formControlName="datetime">
+                <!--Error handling for date-->
+                <span class="text-red-500" *ngIf="checkDateTimeRequired()">
+                    Date & Time is required
+                </span>
+                <span class="text-red-500" *ngIf="checkDateTimeFormat()">
+                    Enter a vaild date time, example: 2022-01-01 09:00:00~16:00:00
+                </span>
             </div>
 
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Booking</label>
-            <div class="flex flex-row">
-                <label class="relative inline-flex items-center mb-4 cursor-pointer">
+            <!--Booking Field-->
+            <label for="booking" class="block mb-2 text-sm font-medium text-gray-900">Booking</label>
+            <div class="flex flex-row mb-4">
+                <label class="relative inline-flex cursor-pointer">
                     <input type="checkbox" formControlName="is_booking_need" class="sr-only peer">
                     <div
                         class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                     </div>
                 </label>
-                <input type="text"
-                    class="ml-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required="" *ngIf="eventDetail?.is_booking_need" formControlName="booking_amount">
+                <div class="flex flex-row ml-4 space-x-2" *ngIf="eventDetailForm.value.is_booking_need">
+                    <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md" (click)="addLimitAmount()">+</a>
+                    <input type="text" class="ml-4 bg-gray-50 text-gray-900 text-sm rounded-lg block w-2" required=""
+                        formControlName="booking_amount"
+                        placeholder="Limit amount for people make booking, if no left empty">
+                    <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md" (click)="deductLimitAmount()">-</a>
+                </div>
             </div>
+
         </div>
         <div class="w-1/2">
+            <!--Map Field-->
             <div class="mb-4">
                 <label for="venue" class="block mb-2 text-sm font-medium text-gray-900">Venue</label>
                 <div class="flex">
@@ -79,17 +106,25 @@
                     <button type="button" class="bg-black text-white rounded-md w-1/6 ml-1"
                         (click)="openDialog('venue')">+ Add</button>
                 </div>
-                <iframe class="mt-2 w-full e2e-iframe-trusted-src" height="310px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                    [src]="safeSrc">
+                <iframe class="mt-2 w-full e2e-iframe-trusted-src" height="310px" frameborder="0" scrolling="no"
+                    marginheight="0" marginwidth="0" [src]="safeSrc">
                 </iframe>
             </div>
 
+            <!--Image Field-->
             <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-900" for="large_size">Poster
-                    Image</label>
+                <label class="block mb-2 text-sm font-medium text-gray-900" for="large_size">Poster Image</label>
                 <input
                     class="block w-full file:bg-black file:text-white file:p-1.5 file:mr-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                    id="large_size" type="file">
+                    id="large_size" type="file" (change)="onFileSelected($event)">
+                <div id="image-list" class="flex flex-row space-x-2">
+                    <div class="relative" *ngFor="let image of imageList">
+                        <img [src]="image.url" class="w-16 h-16 mt-2 opacity-50 rounded-md" />
+                        <span
+                            class="material-symbols-outlined absolute top-1/3 left-1/3 text-black text-sm px-1 bg-gray-200 rounded-xl"
+                            (click)="deleteFile(image.name)">close</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
