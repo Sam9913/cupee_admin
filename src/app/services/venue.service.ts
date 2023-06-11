@@ -20,16 +20,29 @@ export class VenueService {
 
   constructor(private http: HttpClient) { }
 
-  getVenue(name?: string, address?: string): Observable<Venue[]> {
-    var httpParams: HttpParams = new HttpParams();
-    if (name != undefined) {
-      httpParams.append('name', name);
+  getVenue(
+    param: {
+      name?: string,
+      address?: string,
+      order_by?: string,
+      seq?: string
     }
-    if (address != undefined) {
-      httpParams.append('address', address);
+  ): Observable<Venue[]> {
+    var queryParam: string = '';
+    if (param.name != undefined) {
+      queryParam = '?name=' + param.name;
+    }
+    if (param.address != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'address=' + param.address;
+    }
+    if (param.order_by != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'order_by=' + param.order_by;
+      if (param.seq != undefined) {
+        queryParam += '&seq=' + param.seq;
+      }
     }
 
-    return this.http.get<Venue[]>(this.baseUrl + 'getVenue.php', { ...this.httpOptions, params: httpParams }).pipe(
+    return this.http.get<Venue[]>(this.baseUrl + 'getVenue.php' + queryParam, this.httpOptions).pipe(
       tap(_ => this.log('fetched Venues')),
       catchError(this.handleError<Venue[]>('getVenue', []))
     );
@@ -69,7 +82,7 @@ export class VenueService {
     );
   }
 
-  getLongitudeLatitude(address:string): Observable<MapData[]> {
+  getLongitudeLatitude(address: string): Observable<MapData[]> {
     return this.http.get<MapData[]>('https://geocode.maps.co/search', { ...this.httpOptions, params: new HttpParams().append('q', address) }).pipe(
       tap(_ => this.log('fetched Longitude and Latitude')),
       catchError(this.handleError<MapData[]>('getLongitudeLatitude'))

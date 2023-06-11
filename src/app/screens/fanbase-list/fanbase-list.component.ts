@@ -11,6 +11,9 @@ import { SharedServices } from 'src/app/services/shared-services';
 })
 export class FanbaseListComponent {
   fanbaseList: Fanbase[] = [];
+  seq?: string;
+  prevSelectedOrder:string = '';
+  selectedOrder:string = '';
 
   constructor(
     private fanbaseService: FanbaseService, 
@@ -22,9 +25,14 @@ export class FanbaseListComponent {
     this.getFanbaseList();
   }
 
-  getFanbaseList(){
+  getFanbaseList(order_by?:string){
     this.sharedServices.changeLoading(true);
-    this.fanbaseService.getFanbase()
+    if (order_by != undefined) {
+      this.selectedOrder = order_by;
+      this.seq = this.seq == 'ASC' && this.prevSelectedOrder == this.selectedOrder ? 'DESC' : 'ASC';
+      this.prevSelectedOrder = this.selectedOrder;
+    }
+    this.fanbaseService.getFanbase({order_by, seq: this.seq})
       .subscribe(fanbaseList => {
         this.fanbaseList = fanbaseList;
         this.sharedServices.changeLoading(false);

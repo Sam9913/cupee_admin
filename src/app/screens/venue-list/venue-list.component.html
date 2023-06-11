@@ -4,13 +4,15 @@
 </div>
 <div class="rounded-md bg-white px-5 py-5">
     <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
-        <div class="w-5/12 flex flex-row">
+        <div class="w-5/12 flex cursor-pointer" (click)="getVenueList('name')">
             Name
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
-        <div class="w-1/2 flex flex-row">
+        <div class="w-1/2 flex cursor-pointer" (click)="getVenueList('address')">
             Address
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
         <div class="w-1/12 text-end">
             Action

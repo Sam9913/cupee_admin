@@ -234,7 +234,7 @@ export class EventDetailComponent {
 
   getIdolList() {
     this.sharedServices.changeLoading(true);
-    this.idolService.getIdol()
+    this.idolService.getIdol({})
       .subscribe(idolList => {
         this.idolList = idolList;
         this.sharedServices.changeLoading(false);
@@ -243,7 +243,7 @@ export class EventDetailComponent {
 
   getVenueList() {
     this.sharedServices.changeLoading(true);
-    this.venueService.getVenue()
+    this.venueService.getVenue({})
       .subscribe(venueList => {
         this.venueList = venueList;
         this.setSelectedVenue(1);
@@ -253,7 +253,7 @@ export class EventDetailComponent {
 
   getFanbaseList() {
     this.sharedServices.changeLoading(true);
-    this.fanbaseService.getFanbase()
+    this.fanbaseService.getFanbase({})
       .subscribe(fanbaseList => {
         this.fanbaseList = fanbaseList;
         this.sharedServices.changeLoading(false);

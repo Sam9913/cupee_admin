@@ -11,27 +11,35 @@ import { SharedServices } from 'src/app/services/shared-services';
 })
 export class EventListComponent {
   eventList: Event[] = [];
+  seq?: string;
+  prevSelectedOrder:string = '';
+  selectedOrder:string = '';
 
   constructor(
-    private eventService: EventService, 
+    private eventService: EventService,
     private router: Router,
     private sharedServices: SharedServices
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getEventList();
   }
 
-  getEventList(){
+  getEventList(order_by?: string) {
     this.sharedServices.changeLoading(true);
-    this.eventService.getEvent()
+    if (order_by != undefined) {
+      this.selectedOrder = order_by;
+      this.seq = this.seq == 'ASC' && this.prevSelectedOrder == this.selectedOrder ? 'DESC' : 'ASC';
+      this.prevSelectedOrder = this.selectedOrder;
+    }
+    this.eventService.getEvent({ order_by, seq: this.seq })
       .subscribe(eventList => {
         this.sharedServices.changeLoading(false);
         this.eventList = eventList;
       });
   }
 
-  deleteEvent(event_id:number,name:string){
+  deleteEvent(event_id: number, name: string) {
     this.sharedServices.changeLoading(true);
     this.eventService.deleteEvent(event_id)
       .subscribe(isSuccess => {

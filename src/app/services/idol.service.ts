@@ -19,19 +19,32 @@ export class IdolService {
 
   constructor(private http: HttpClient) { }
 
-  getIdol(name?: string, member_amount?: number, gender?: number): Observable<Idol[]> {
-    var httpParams: HttpParams = new HttpParams();
-    if (name != undefined) {
-      httpParams.append('name', name);
+  getIdol(param: {
+    name?: string,
+    member_amount?: number,
+    gender?: number,
+    order_by?: string,
+    seq?: string
+  }
+  ): Observable<Idol[]> {
+    var queryParam:string = '';
+    if (param.name != undefined) {
+      queryParam = '?name=' + param.name;
     }
-    if (member_amount != undefined) {
-      httpParams.append('member_amount', member_amount);
+    if (param.member_amount != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'member_amount=' + param.member_amount;
     }
-    if (gender != undefined) {
-      httpParams.append('gender', gender);
+    if (param.gender != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'gender=' + param.gender;
+    }
+    if (param.order_by != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'order_by=' + param.order_by;
+      if (param.seq != undefined) {
+        queryParam += '&seq=' + param.seq;
+      }
     }
 
-    return this.http.get<Idol[]>(this.baseUrl + 'getIdol.php', { ...this.httpOptions, params: httpParams }).pipe(
+    return this.http.get<Idol[]>(this.baseUrl + 'getIdol.php' + queryParam, this.httpOptions).pipe(
       tap(_ => this.log('fetched idols')),
       catchError(this.handleError<Idol[]>('getIdol', []))
     );
@@ -47,16 +60,16 @@ export class IdolService {
   addIdol(name: string, gender: number, member_amount: number): Observable<boolean> {
     const token = localStorage.getItem('token');
 
-    return this.http.post<boolean>(this.baseUrl + 'addIdol.php', { name, gender, member_amount, "Authorization": token  }, this.httpOptions).pipe(
+    return this.http.post<boolean>(this.baseUrl + 'addIdol.php', { name, gender, member_amount, "Authorization": token }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`addIdol w/ id=${token}`)),
       catchError(this.handleError<boolean>('addIdol'))
     );
   }
 
-  updateIdol(name: string, gender: number, member_amount: number, idol_id:number): Observable<boolean> {
+  updateIdol(name: string, gender: number, member_amount: number, idol_id: number): Observable<boolean> {
     const token = localStorage.getItem('token');
 
-    return this.http.post<boolean>(this.baseUrl + 'updateIdol.php', { name, gender, member_amount, idol_id, "Authorization": token  }, this.httpOptions).pipe(
+    return this.http.post<boolean>(this.baseUrl + 'updateIdol.php', { name, gender, member_amount, idol_id, "Authorization": token }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`updateIdol w/ id=${token}`)),
       catchError(this.handleError<boolean>('updateIdol'))
     );
@@ -65,7 +78,7 @@ export class IdolService {
   deleteIdol(idol_id: number): Observable<boolean> {
     const token = localStorage.getItem('token');
 
-    return this.http.post<boolean>(this.baseUrl + 'deleteIdol.php', { idol_id, "Authorization": token  }, this.httpOptions).pipe(
+    return this.http.post<boolean>(this.baseUrl + 'deleteIdol.php', { idol_id, "Authorization": token }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`deleteIdol w/ id=${token}`)),
       catchError(this.handleError<boolean>('deleteIdol'))
     );

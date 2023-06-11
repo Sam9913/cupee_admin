@@ -11,6 +11,9 @@ import { SharedServices } from 'src/app/services/shared-services';
 })
 export class IdolListComponent {
   idolList: Idol[] = [];
+  seq?: string;
+  prevSelectedOrder:string = '';
+  selectedOrder:string = '';
 
   constructor(
     private idolService: IdolService, 
@@ -22,9 +25,14 @@ export class IdolListComponent {
     this.getIdolList();
   }
 
-  getIdolList() {
+  getIdolList(order_by?:string) {
     this.sharedServices.changeLoading(true);
-    this.idolService.getIdol()
+    if (order_by != undefined) {
+      this.selectedOrder = order_by;
+      this.seq = this.seq == 'ASC' && this.prevSelectedOrder == this.selectedOrder ? 'DESC' : 'ASC';
+      this.prevSelectedOrder = this.selectedOrder;
+    }
+    this.idolService.getIdol({order_by, seq: this.seq})
       .subscribe(idolList => {
         this.sharedServices.changeLoading(false);
         this.idolList = idolList;

@@ -11,6 +11,9 @@ import { VenueService } from 'src/app/services/venue.service';
 })
 export class VenueListComponent {
   venueList: Venue[] = [];
+  seq?: string;
+  prevSelectedOrder:string = '';
+  selectedOrder:string = '';
 
   constructor(
     private venueService: VenueService,
@@ -22,9 +25,14 @@ export class VenueListComponent {
     this.getVenueList();
   }
 
-  getVenueList() {
+  getVenueList(order_by?:string) {
     this.sharedServices.changeLoading(true);
-    this.venueService.getVenue()
+    if (order_by != undefined) {
+      this.selectedOrder = order_by;
+      this.seq = this.seq == 'ASC' && this.prevSelectedOrder == this.selectedOrder ? 'DESC' : 'ASC';
+      this.prevSelectedOrder = this.selectedOrder;
+    }
+    this.venueService.getVenue({order_by, seq: this.seq})
       .subscribe(venueList => {
         this.venueList = venueList;
         this.sharedServices.changeLoading(false);

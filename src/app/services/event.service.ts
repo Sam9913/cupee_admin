@@ -19,25 +19,39 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvent(event_name?: string, is_booking_need?: boolean, datetime?: string, fanbase_id?: number, venue_id?: number): Observable<Event[]> {
-    var httpParams: HttpParams = new HttpParams();
-    if (event_name != undefined) {
-      httpParams.append('event_name', event_name);
+  getEvent(
+    param: {event_name?: string,
+    is_booking_need?: boolean,
+    datetime?: string,
+    fanbase_id?: number,
+    venue_id?: number,
+    order_by?: string,
+    seq?: string}
+  ): Observable<Event[]> {
+    var queryParam:string = '';
+    if (param.event_name != undefined) {
+      queryParam = '?event_name=' + param.event_name;
     }
-    if (is_booking_need != undefined) {
-      httpParams.append('is_booking_need', is_booking_need);
+    if (param.is_booking_need != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'is_booking_need=' + param.is_booking_need;
     }
-    if (datetime != undefined) {
-      httpParams.append('datetime', datetime);
+    if (param.datetime != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'datetime=' + param.datetime;
     }
-    if (fanbase_id != undefined) {
-      httpParams.append('fanbase_id', fanbase_id);
+    if (param.fanbase_id != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'fanbase_id=' + param.fanbase_id;
     }
-    if (venue_id != undefined) {
-      httpParams.append('venue_id', venue_id);
+    if (param.venue_id != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'venue_id=' + param.venue_id;
+    }
+    if (param.order_by != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'order_by=' + param.order_by;
+      if (param.seq != undefined) {
+        queryParam += '&seq=' + param.seq;
+      }
     }
 
-    return this.http.get<Event[]>(this.baseUrl + 'getEvent.php', { ...this.httpOptions, params: httpParams }).pipe(
+    return this.http.get<Event[]>(this.baseUrl + 'getEvent.php' + queryParam, this.httpOptions).pipe(
       tap(_ => this.log('fetched events')),
       catchError(this.handleError<Event[]>('getEvent', []))
     );
@@ -50,14 +64,33 @@ export class EventService {
     );
   }
 
-  addEvent(name: string, fanbase_id: number, idol_id: number, image_url: string, faq: string, is_booking_need: boolean, datetime: string, venue_id: number): Observable<boolean> {
+  addEvent(
+    name: string,
+    fanbase_id: number,
+    idol_id: number,
+    image_url: string,
+    faq: string,
+    is_booking_need: boolean,
+    datetime: string,
+    venue_id: number
+  ): Observable<boolean> {
     return this.http.post<boolean>(this.baseUrl + 'addEvent.php', { name, fanbase_id, idol_id, image_url, faq, is_booking_need, datetime, venue_id }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`addEvent w/ id=${token}`)),
       catchError(this.handleError<boolean>('addEvent'))
     );
   }
 
-  updateEvent(name: string, fanbase_id: number, idol_id: number, image_url: string, faq: string, is_booking_need: boolean, datetime: string, venue_id: number, event_id: number): Observable<boolean> {
+  updateEvent(
+    name: string,
+    fanbase_id: number,
+    idol_id: number,
+    image_url: string,
+    faq: string,
+    is_booking_need: boolean,
+    datetime: string,
+    venue_id: number,
+    event_id: number
+  ): Observable<boolean> {
     return this.http.post<boolean>(this.baseUrl + 'updateEvent.php', { name, fanbase_id, idol_id, image_url, faq, is_booking_need, datetime, venue_id, event_id }, this.httpOptions).pipe(
       tap((token: boolean) => this.log(`updateEvent w/ id=${token}`)),
       catchError(this.handleError<boolean>('updateEvent'))

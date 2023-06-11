@@ -19,25 +19,41 @@ export class FanbaseService {
 
   constructor(private http: HttpClient) { }
 
-  getFanbase(name?: string, email?: string, twitter_username?: string, instagram_username?: number, facebook_link?: number): Observable<Fanbase[]> {
-    var httpParams: HttpParams = new HttpParams();
-    if (name != undefined) {
-      httpParams.append('name', name);
+  getFanbase(
+    param: {
+      name?: string,
+      email?: string,
+      twitter_username?: string,
+      instagram_username?: number,
+      facebook_link?: number,
+      order_by?: string,
+      seq?: string
     }
-    if (email != undefined) {
-      httpParams.append('email', email);
+  ): Observable<Fanbase[]> {
+    var queryParam:string = '';
+    if (param.name != undefined) {
+      queryParam = '?name=' + param.name;
     }
-    if (twitter_username != undefined) {
-      httpParams.append('twitter_username', twitter_username);
+    if (param.email != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'email=' + param.email;
     }
-    if (instagram_username != undefined) {
-      httpParams.append('instagram_username', instagram_username);
+    if (param.twitter_username != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'twitter_username=' + param.twitter_username;
     }
-    if (facebook_link != undefined) {
-      httpParams.append('facebook_link', facebook_link);
+    if (param.instagram_username != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'instagram_username=' + param.instagram_username;
+    }
+    if (param.facebook_link != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'facebook_link=' + param.facebook_link;
+    }
+    if (param.order_by != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'order_by=' + param.order_by;
+      if (param.seq != undefined) {
+        queryParam += '&seq=' + param.seq;
+      }
     }
 
-    return this.http.get<Fanbase[]>(this.baseUrl + 'getFanbase.php', { ...this.httpOptions, params: httpParams }).pipe(
+    return this.http.get<Fanbase[]>(this.baseUrl + 'getFanbase.php' + queryParam, this.httpOptions).pipe(
       tap(_ => this.log('fetched fanbases')),
       catchError(this.handleError<Fanbase[]>('getFanbase', []))
     );

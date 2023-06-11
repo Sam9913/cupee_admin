@@ -4,46 +4,42 @@
 </div>
 <div class="rounded-md bg-white px-5 py-5">
     <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
-        <div class="w-1/6 flex flex-row">
+        <div class="w-1/6 flex cursor-pointer" (click)="getEventList('event_name')">
             Name
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'event_name' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'event_name' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
-        <div class="w-1/4 flex flex-row">
+        <div class="w-1/4 flex cursor-pointer" (click)="getEventList('date')">
             Date
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'date' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'date' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
-        <div class="w-1/6 flex flex-row">
+        <div class="w-1/6 flex cursor-pointer" (click)="getEventList('idol_name')">
             Idol
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'idol_name' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'idol_name' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
-        <div class="w-1/6 flex flex-row">
+        <div class="w-1/6 flex cursor-pointer" (click)="getEventList('fanbase_name')">
             Fanbase
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'fanbase_name' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'fanbase_name' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
-        <div class="w-1/6 flex flex-row">
+        <div class="w-1/6 flex cursor-pointer" (click)="getEventList('venue_name')">
             Venue
-            <!-- <span class="material-symbols-outlined"> keyboard_arrow_down </span> -->
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'venue_name' && seq == 'ASC'"> keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'venue_name' && seq == 'DESC'"> keyboard_arrow_up </span>
         </div>
         <div class="w-1/12 text-end">
             Action
         </div>
     </div>
 
-    <!-- <li *ngFor="let hero of heroes">
-        <a routerLink="/detail/{{hero.id}}">
-          <span class="badge">{{hero.id}}</span> {{hero.name}}
-        </a>
-        <button type="button" class="delete" title="delete hero"
-          (click)="delete(hero)">x</button>
-      </li> -->
-
     <div class="flex flex-row px-2 py-3 space-x-10" *ngFor="let event of eventList">
         <div class="w-1/6">
             {{event.name}}
         </div>
         <div class="w-1/4">
-            <span class="rounded-lg px-1 py-1 bg-cyan-200">{{event.date[0]}} {{event.start_time[0]}} ~
-                {{event.end_time[0]}}</span>
+            {{event.date[0]}} {{event.start_time[0]}} ~ {{event.end_time[0]}}
         </div>
         <div class="w-1/6">
             {{event.idol_name}}
