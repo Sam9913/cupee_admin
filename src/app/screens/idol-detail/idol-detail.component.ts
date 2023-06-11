@@ -13,6 +13,7 @@ export class IdolDetailComponent {
   idolDetailForm!: FormGroup;
   isUpdate: boolean = false;
   isFail: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,8 +26,8 @@ export class IdolDetailComponent {
   ngOnInit() {
     this.idolDetailForm = this.formBuilder.group({
       name: ['', Validators.required],
-      member_amount: ['', Validators.required],
-      gender: ['', Validators.required],
+      member_amount: [1, Validators.required],
+      gender: [0, Validators.required],
     });
 
     var param = this.route.snapshot.paramMap.get('id');
@@ -34,6 +35,10 @@ export class IdolDetailComponent {
       this.isUpdate = true;
       this.getIdol(param);
     }
+  }
+
+  submittedControl(formControlName: string) {
+    return (this.idolDetailForm.controls[formControlName].touched || this.submitted);
   }
 
   get nameControl() {
@@ -46,6 +51,14 @@ export class IdolDetailComponent {
 
   get genderControl() {
     return this.idolDetailForm.controls['gender'];
+  }
+
+  checkNameRequired() {
+    var required: boolean = false;
+    if (this.nameControl.errors != null) {
+      required = this.nameControl.errors['required'];
+    }
+    return this.submittedControl('name') && required;
   }
 
   getIdol(param: string) {
@@ -72,7 +85,7 @@ export class IdolDetailComponent {
   deductMemberAmount() {
     var value = this.idolDetailForm.value.member_amount;
     if (value == '' || value == '1') {
-      this.memberAmountControl.setValue(0);
+      this.memberAmountControl.setValue(1);
     } else {
       this.memberAmountControl.setValue(parseInt(value, 10) - 1);
     }
@@ -80,6 +93,7 @@ export class IdolDetailComponent {
 
   onSubmit() {
     this.sharedServices.changeLoading(true);
+    this.submitted = true;
     if (this.idolDetailForm.valid) {
       if (this.isUpdate) {
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);

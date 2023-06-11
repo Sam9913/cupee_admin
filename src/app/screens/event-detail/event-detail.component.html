@@ -41,7 +41,7 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required="" formControlName="name">
                 <!--Error handling for name-->
-                <span class="text-red-500" *ngIf="checkNameRequired()">
+                <span class="text-red-500 text-xs" *ngIf="checkNameRequired()">
                     Event Name is required
                 </span>
             </div>
@@ -53,7 +53,7 @@
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Leave a comment..." formControlName="faq"></textarea>
                 <!--Error handling for faq-->
-                <span class="text-red-500" *ngIf="checkFaqRequired()">
+                <span class="text-red-500 text-xs" *ngIf="checkFaqRequired()">
                     FAQ is required
                 </span>
             </div>
@@ -65,10 +65,10 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required="" formControlName="datetime">
                 <!--Error handling for date-->
-                <span class="text-red-500" *ngIf="checkDateTimeRequired()">
+                <span class="text-red-500 text-xs" *ngIf="checkDateTimeRequired()">
                     Date & Time is required
                 </span>
-                <span class="text-red-500" *ngIf="checkDateTimeFormat()">
+                <span class="text-red-500 text-xs" *ngIf="checkDateTimeFormat()">
                     Enter a vaild date time, example: 2022-01-01 09:00:00~16:00:00
                 </span>
             </div>
@@ -84,9 +84,9 @@
                 </label>
                 <div class="flex flex-row ml-4 space-x-2" *ngIf="eventDetailForm.value.is_booking_need">
                     <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md" (click)="addLimitAmount()">+</a>
-                    <input type="text" class="ml-4 bg-gray-50 text-gray-900 text-sm rounded-lg block w-2" required=""
+                    <input type="text" class="ml-4 bg-gray-50 text-gray-900 text-sm rounded-lg block w-2 cursor-default"
                         formControlName="booking_amount"
-                        placeholder="Limit amount for people make booking, if no left empty">
+                        readonly>
                     <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md" (click)="deductLimitAmount()">-</a>
                 </div>
             </div>

@@ -60,10 +60,10 @@ export class EventDetailComponent {
       fanbase_id: [1, Validators.required],
       venue_id: [1, Validators.required],
       idol_id: [1, Validators.required],
-      image_url: [''],
+      image_url: '',
       faq: ['', Validators.required],
       datetime: ['', Validators.required],
-      is_booking_need: [false],
+      is_booking_need: false,
       booking_amount: [0, Validators.pattern("^[0-9]*$")],
     });
 
@@ -296,6 +296,7 @@ export class EventDetailComponent {
 
   onSubmit() {
     this.sharedServices.changeLoading(true);
+    this.submitted = true;
     if (this.eventDetailForm.valid) {
       if (this.isUpdate) {
         const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);

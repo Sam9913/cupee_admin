@@ -14,6 +14,8 @@ export class VenueDetailComponent {
   venueDetailForm!: FormGroup;
   isUpdate: boolean = false;
   isFail: boolean = false;
+  submitted: boolean = false;
+  format: boolean = true;
   src: string = '';
   safeSrc: SafeResourceUrl = '';
 
@@ -30,8 +32,8 @@ export class VenueDetailComponent {
     this.venueDetailForm = this.formBuilder.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
-      longitude: [0],
-      latitude: [0],
+      longitude: 0,
+      latitude: 0,
     });
 
     var param = this.route.snapshot.paramMap.get('id');
@@ -41,6 +43,10 @@ export class VenueDetailComponent {
     } else {
       this.setMapCoordinate(0, 0);
     }
+  }
+
+  submittedControl(formControlName: string) {
+    return (this.venueDetailForm.controls[formControlName].touched || this.submitted);
   }
 
   get nameControl() {
@@ -57,6 +63,29 @@ export class VenueDetailComponent {
 
   get latitudeControl() {
     return this.venueDetailForm.controls['latitude'];
+  }
+
+  checkNameRequired() {
+    var required: boolean = false;
+    if (this.nameControl.errors != null) {
+      required = this.nameControl.errors['required'];
+    }
+    return this.submittedControl('name') && required;
+  }
+
+  checkAddressRequired() {
+    var required: boolean = false;
+    if (this.addressControl.errors != null) {
+      required = this.addressControl.errors['required'];
+    }
+    return this.submittedControl('address') && required;
+  }
+
+  checkAddressFormat() {
+    if (this.venueDetailForm.value.address != '') {
+      return this.submittedControl('address') && this.format;
+    }
+    return false;
   }
 
   getVenue(param: string) {
@@ -78,7 +107,12 @@ export class VenueDetailComponent {
     this.venueService.getLongitudeLatitude(event.target.value)
       .subscribe(result => {
         if (result) {
-          console.log(result)
+          if (result[0] == undefined) {
+            this.format = true;
+          } else {
+            this.format = false;
+          }
+
           this.setMapCoordinate(
             parseFloat(result[0].lat),
             parseFloat(result[0].lon),
@@ -93,6 +127,8 @@ export class VenueDetailComponent {
   }
 
   onSubmit() {
+    this.sharedServices.changeLoading(true);
+    this.submitted = true;
     if (this.venueDetailForm.valid) {
       this.venueService.getLongitudeLatitude(this.venueDetailForm.value.address)
         .subscribe(result => {
@@ -112,6 +148,7 @@ export class VenueDetailComponent {
           this.venueDetailForm.value.latitude,
           id
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
             this.sharedServices.changeMessage('Successfully update ' + this.venueDetailForm.value.name);
             this.router.navigate(['/venue']);
@@ -129,6 +166,7 @@ export class VenueDetailComponent {
           this.venueDetailForm.value.longitude,
           this.venueDetailForm.value.latitude
         ).subscribe(isSuccess => {
+          this.sharedServices.changeLoading(false);
           if (isSuccess) {
             this.sharedServices.changeMessage('Successfully add ' + this.venueDetailForm.value.name);
             this.router.navigate(['/venue']);
