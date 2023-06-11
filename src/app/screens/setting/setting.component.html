@@ -1,9 +1,9 @@
-<div class="flex flex-row space-x-1">
-        <div class="w-1/8 text-center" (click)="changeSelectedIndex(0)">
+<div class="flex flex-row space-x-2">
+        <div class="w-1/8 text-center cursor-pointer" (click)="changeSelectedIndex(0)">
                 <span>Change Password</span>
                 <div class="h-1 bg-black" *ngIf="selectedIndex == 0"></div>
         </div>
-        <div class="w-1/12 text-center" (click)="changeSelectedIndex(1)">
+        <div class="w-1/12 text-center cursor-pointer" (click)="changeSelectedIndex(1)">
                 <span>Copyright</span>
                 <div class="h-1 bg-black" *ngIf="selectedIndex == 1"></div>
         </div>
@@ -32,8 +32,8 @@
                         formControlName="confirm_password">
         </div>
 
-        <button type="submit" class="block w-full mt-6 py-2 rounded-md text-white font-semibold flex justify-center space-x-2"
-                style="background-color: #8A6244;">
+        <button type="submit"
+                class="block w-full mt-6 py-2 rounded-md text-white font-semibold flex justify-center space-x-2 bg-black">
                 <span class="material-symbols-outlined"> save </span> <span>Save</span></button>
 </form>
 
