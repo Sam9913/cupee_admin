@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {MatDialogModule} from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './screens/dashboard/dashboard.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarComponent } from './widget/sidebar/sidebar.component';
 import { EventListComponent } from './screens/event-list/event-list.component';
 import { EventDetailComponent } from './screens/event-detail/event-detail.component';
 import { FanbaseListComponent } from './screens/fanbase-list/fanbase-list.component';
@@ -20,10 +21,12 @@ import { VenueListComponent } from './screens/venue-list/venue-list.component';
 import { VenueDetailComponent } from './screens/venue-detail/venue-detail.component';
 import { LoginComponent } from './screens/login/login.component';
 import { SettingComponent } from './screens/setting/setting.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -44,11 +47,14 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RouterModule.forRoot([
       { path: '', component: DashboardComponent },
       { path: 'events', component: EventListComponent },

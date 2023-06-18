@@ -21,7 +21,7 @@
 </div>
 
 <!---Login Screen-->
-<div *ngIf="isLoginPage">
+<div *ngIf="isLoginPage" ngClass="{{show ? 'opacity-20' : ''}}">
   <router-outlet></router-outlet>
 </div>
 
