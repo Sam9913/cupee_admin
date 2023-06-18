@@ -1,23 +1,76 @@
 <div class="flex flex-row justify-between mb-3">
     <div class="text-3xl font-bold">{{idolList.length}} idol(s)</div>
-    <button type="button" class="rounded-md bg-black text-white px-2" routerLink="/idol/detail">+ Create new</button>
+        <button type="button" class="rounded-md bg-black text-white p-2" routerLink="/idol/detail">+ Create
+            new</button>
 </div>
+
+<div class="mb-2 relative">
+    <div class="grid grid-flow-col auto-cols-max gap-2">
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 0 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(0)">
+                <span class="material-symbols-outlined mr-1">badge</span>{{name == null ? 'Name' : name}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 0" [@grow]>
+                <input id="name" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                    placeholder="Enter name here" (value)="name" (keyup.enter)="changeName($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitName()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 1 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(1)">
+                <span class="material-symbols-outlined mr-1">person</span>{{amount == 0 ? 'Amount' : amount}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 1" [@grow]>
+                <div class="flex flex-row space-x-2 my-2">
+                    <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md"
+                        (click)="addMemberAmount()">+</a>
+                    <input type="text" id="member_amount"
+                        class="ml-4 bg-gray-50 text-gray-900 text-sm rounded-lg block w-2 cursor-default"
+                        [value]="amount"
+                        readonly>
+                    <a class="cursor-pointer border border-gray-50 bg-gray-200 px-2 rounded-md"
+                        (click)="deductMemberAmount()">-</a>
+                    <button class="bg-black rounded-md text-sm text-white px-1 cursor-pointer" (click)="submitAmount()">Search</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 2 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(2)"><span
+                    class="material-symbols-outlined">transgender</span>{{getGender()}}</button>
+            <div class="absolute px-2 py-2 bg-white rounded-md shadow-md top-10 w-1/12" *ngIf="showIndex == 2" [@grow]>
+                <input type="radio" id="male" name="gender" (click)="changeGender(0)" [checked]="gender == 1"><label for="male"> Male</label><br>
+                <input type="radio" id="female" name="gender" (click)="changeGender(1)" [checked]="gender == 0"><label for="female"> Female</label>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="rounded-md bg-white px-5 py-5">
     <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
         <div class="w-1/3 flex cursor-pointer" (click)="getIdolList('name')">
             Name
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down
+            </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up
+            </span>
         </div>
         <div class="w-1/3 flex cursor-pointer" (click)="getIdolList('gender')">
             Gender
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'gender' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'gender' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'gender' && seq == 'ASC'">
+                keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'gender' && seq == 'DESC'">
+                keyboard_arrow_up </span>
         </div>
         <div class="w-1/4 flex cursor-pointer" (click)="getIdolList('member_amount')">
             Member amount
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'member_amount' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'member_amount' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'member_amount' && seq == 'ASC'">
+                keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'member_amount' && seq == 'DESC'">
+                keyboard_arrow_up </span>
         </div>
         <div class="w-1/12 text-end">
             Action

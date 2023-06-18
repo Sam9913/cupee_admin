@@ -24,8 +24,8 @@ export class FanbaseService {
       name?: string,
       email?: string,
       twitter_username?: string,
-      instagram_username?: number,
-      facebook_link?: number,
+      instagram_username?: string,
+      facebook_link?: string,
       order_by?: string,
       seq?: string
     }

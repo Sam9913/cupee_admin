@@ -1,18 +1,95 @@
 <div class="flex flex-row justify-between mb-3">
     <div class="text-3xl font-bold">{{fanbaseList.length}} fanbase(s)</div>
-    <button type="button" class="rounded-md bg-black text-white px-2" routerLink="/fanbase/detail">+ Create new</button>
+    <button type="button" class="rounded-md bg-black text-white p-2" routerLink="/fanbase/detail">+ Create
+        new</button>
 </div>
+
+<div class="mb-2 relative">
+    <div class="grid grid-flow-col auto-cols-max gap-2">
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 0 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(0)">
+                <span class="material-symbols-outlined mr-1">badge</span>{{name == null ? 'Name' : name}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 0" [@grow]>
+                <input id="name" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                    placeholder="Enter name here" (value)="name" (keyup.enter)="changeName($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitName()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 1 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(1)">
+                <span class="material-symbols-outlined mr-1">email</span>{{email == null ? 'Email' : email}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 1" [@grow]>
+                <input id="email" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                    placeholder="Enter email here" (value)="email" (keyup.enter)="changeEmail($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitEmail()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 3 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(3)">
+                <img src="../../../assets/icons/facebook.png" class="w-5 my-0.5 mr-1" />
+                {{facebookLink == null ? 'Facebook' : facebookLink}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 3" [@grow]>
+                <input id="facebook" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 pr-8 py-1"
+                    placeholder="Enter facebook link here" (value)="facebookLink"
+                    (keyup.enter)="changeFacebookLink($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitFacebook()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 4 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(4)">
+                <img src="../../../assets/icons/instagram.png" class="w-5 my-0.5 mr-1" />
+                {{instagramUsername == null ? 'Instagram' : instagramUsername}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 4" [@grow]>
+                <input id="instagram" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 pr-8 py-1"
+                    placeholder="Enter instagram username here" (value)="instagramUsername"
+                    (keyup.enter)="changeInstagramUsername($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitInstagram()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 5 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(5)">
+                <img src="../../../assets/icons/twitter.png" class="w-5 my-0.5 mr-1" />
+                {{twitterUsername == null ? 'Twitter' : twitterUsername}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 5" [@grow]>
+                <input id="twitter" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 pr-8 py-1"
+                    placeholder="Enter twitter username here" (value)="twitterUsername"
+                    (keyup.enter)="changeTwiiterUsername($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitTwitter()">keyboard_return</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="rounded-md bg-white px-5 py-5">
     <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
         <div class="w-1/6 flex cursor-pointer" (click)="getFanbaseList('name')">
             Name
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down
+            </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up
+            </span>
         </div>
         <div class="w-1/4 flex cursor-pointer" (click)="getFanbaseList('email')">
             Email
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'email' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'email' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'email' && seq == 'ASC'">
+                keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'email' && seq == 'DESC'"> keyboard_arrow_up
+            </span>
         </div>
         <div class="w-1/2 flex flex-row">
             Social Media

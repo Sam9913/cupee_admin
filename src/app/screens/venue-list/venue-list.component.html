@@ -1,18 +1,53 @@
 <div class="flex flex-row justify-between mb-3">
     <div class="text-3xl font-bold">{{venueList.length}} venue(s)</div>
-    <button type="button" class="rounded-md bg-black text-white px-2" routerLink="/venue/detail">+ Create new</button>
+        <button type="button" class="rounded-md bg-black text-white p-2" routerLink="/venue/detail">+ Create
+            new</button>
 </div>
+
+<div class="mb-2 relative">
+    <div class="grid grid-flow-col auto-cols-max gap-2">
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 0 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(0)">
+                <span class="material-symbols-outlined mr-1">badge</span>{{name == null ? 'Name' : name}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 0" [@grow]>
+                <input id="name" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                    placeholder="Enter name here" (value)="name" (keyup.enter)="changeName($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitName()">keyboard_return</span>
+            </div>
+        </div>
+        <div>
+            <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
+                ngClass="{{showIndex == 1 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(1)">
+                <span class="material-symbols-outlined mr-1">map</span>{{address == null ? 'Address' : address}}
+            </button>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 1" [@grow]>
+                <input id="address" type="text"
+                    class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                    placeholder="Enter address here" (value)="address" (keyup.enter)="changeAddress($event)">
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitAddress()">keyboard_return</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="rounded-md bg-white px-5 py-5">
     <div class="flex flex-row px-2 py-3 border space-x-10" style="background-color:#FAFAFA;">
         <div class="w-5/12 flex cursor-pointer" (click)="getVenueList('name')">
             Name
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'ASC'"> keyboard_arrow_down
+            </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'name' && seq == 'DESC'"> keyboard_arrow_up
+            </span>
         </div>
         <div class="w-1/2 flex cursor-pointer" (click)="getVenueList('address')">
             Address
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'ASC'"> keyboard_arrow_down </span>
-            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'DESC'"> keyboard_arrow_up </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'ASC'">
+                keyboard_arrow_down </span>
+            <span class="material-symbols-outlined" *ngIf="selectedOrder == 'address' && seq == 'DESC'">
+                keyboard_arrow_up </span>
         </div>
         <div class="w-1/12 text-end">
             Action
@@ -29,7 +64,8 @@
             <div class="flex flex-row space-x-2 justify-end">
                 <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1"
                     routerLink="/venue/detail/{{venue.id}}"> edit </a>
-                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1 cursor-pointer" (click)="deleteVenue(venue.id, venue.name)"> delete </a>
+                <a class="material-symbols-outlined bg-black text-white rounded-md px-0.5 py-1 cursor-pointer"
+                    (click)="deleteVenue(venue.id, venue.name)"> delete </a>
             </div>
         </div>
     </div>

@@ -21,10 +21,11 @@ export class EventService {
 
   getEvent(
     param: {event_name?: string,
-    is_booking_need?: boolean,
+    is_booking_need?: number,
     datetime?: string,
     fanbase_id?: number,
     venue_id?: number,
+    idol_id?:number,
     order_by?: string,
     seq?: string}
   ): Observable<Event[]> {
@@ -43,6 +44,9 @@ export class EventService {
     }
     if (param.venue_id != undefined) {
       queryParam += (queryParam.length == 0 ? '?' : '&') + 'venue_id=' + param.venue_id;
+    }
+    if (param.idol_id != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'idol_id=' + param.idol_id;
     }
     if (param.order_by != undefined) {
       queryParam += (queryParam.length == 0 ? '?' : '&') + 'order_by=' + param.order_by;
