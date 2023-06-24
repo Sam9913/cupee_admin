@@ -11,32 +11,32 @@
                 ngClass="{{showIndex == 0 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(0)">
                 <span class="material-symbols-outlined mr-1">badge</span>{{name == null ? 'Name' : name}}
             </button>
-            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 0" [@grow]>
+            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 0">
                 <input id="name" type="text"
                     class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
-                    placeholder="Enter name here"
-                    (value)="name"
-                    (keyup.enter)="changeName($event)">
-                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer" (click)="submitName()">keyboard_return</span>
+                    placeholder="Enter name here" (value)="name" (keyup.enter)="changeName($event)" [@grow]>
+                <span class="material-symbols-outlined absolute top-3 right-3 cursor-pointer"
+                    (click)="submitName()">keyboard_return</span>
             </div>
         </div>
-        <!-- <div>
+        <div>
             <button class="bg-gray-200 py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
                 ngClass="{{showIndex == 1 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(1)">
                 <span class="material-symbols-outlined mr-1">date_range</span>Date Range
             </button>
-            <div class="absolute px-2 bg-white rounded-md shadow-md top-10" *ngIf="showIndex == 1" [@grow]>
+            <div class="absolute px-2 bg-white w-1/6 rounded-md shadow-md top-10" *ngIf="showIndex == 1" [@grow]>
                 <mat-date-range-input
                     class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 py-1 pr-8"
+                    [formGroup]="range"
                     [rangePicker]="picker">
-                    <input matStartDate placeholder="MM/DD/YYYY">
-                    <input matEndDate placeholder="MM/DD/YYYY">
+                    <input matStartDate formControlName="start" placeholder="Start Date">
+                    <input matEndDate formControlName="end" placeholder="End Date" (dateChange)="changeDate()">
                 </mat-date-range-input>
                 <mat-datepicker-toggle class="absolute top-0 right-0" matIconSuffix
                     [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
             </div>
-        </div> -->
+        </div>
         <div>
             <button class="py-1 px-2 text-sm rounded-md w-full flex items-center justify-center"
                 ngClass="{{showIndex == 2 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(2)"><span
@@ -46,7 +46,8 @@
                     class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
                     required (change)="changeFanbase($event)">
                     <option value="">Select Fanbase</option>
-                    <option *ngFor="let fanbase of fanbaseList" [value]="fanbase.id" [selected]="fanbaseId == fanbase.id">{{fanbase.name}}</option>
+                    <option *ngFor="let fanbase of fanbaseList" [value]="fanbase.id"
+                        [selected]="fanbaseId == fanbase.id">{{fanbase.name}}</option>
                 </select>
             </div>
         </div>
@@ -59,7 +60,8 @@
                     class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
                     required (change)="changeIdol($event)">
                     <option value="">Select Idol</option>
-                    <option *ngFor="let idol of idolList" [value]="idol.id" [selected]="idolId == idol.id">{{idol.name}}</option>
+                    <option *ngFor="let idol of idolList" [value]="idol.id" [selected]="idolId == idol.id">{{idol.name}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -72,7 +74,8 @@
                     class="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
                     required (change)="changeVenue($event)">
                     <option value="">Select Venue</option>
-                    <option *ngFor="let venue of venueList" [value]="venue.id" [selected]="venueId == venue.id">{{venue.name}}</option>
+                    <option *ngFor="let venue of venueList" [value]="venue.id" [selected]="venueId == venue.id">
+                        {{venue.name}}</option>
                 </select>
             </div>
         </div>
@@ -81,8 +84,10 @@
                 ngClass="{{showIndex == 5 ? 'bg-white shadow-md': 'bg-gray-200'}}" (click)="changeShowIndex(5)"><span
                     class="material-symbols-outlined">book_online</span>{{getBookingNeed()}}</button>
             <div class="absolute px-2 py-2 bg-white rounded-md shadow-md top-10 w-1/12" *ngIf="showIndex == 5" [@grow]>
-                <input type="radio" id="yes" name="is_booking_need" value="true" (click)="changeBookingNeed(1)" [checked]="bookingNeed == 1"><label for="yes"> Yes</label><br>
-                <input type="radio" id="no" name="is_booking_need" value="false" (click)="changeBookingNeed(0)" [checked]="bookingNeed == 0"><label for="no"> No</label>
+                <input type="radio" id="yes" name="is_booking_need" value="true" (click)="changeBookingNeed(1)"
+                    [checked]="bookingNeed == 1"><label for="yes"> Yes</label><br>
+                <input type="radio" id="no" name="is_booking_need" value="false" (click)="changeBookingNeed(0)"
+                    [checked]="bookingNeed == 0"><label for="no"> No</label>
             </div>
         </div>
     </div>

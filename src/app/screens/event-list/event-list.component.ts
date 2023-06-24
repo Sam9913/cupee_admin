@@ -10,6 +10,9 @@ import { IdolService } from 'src/app/services/idol.service';
 import { VenueService } from 'src/app/services/venue.service';
 import { Venue } from 'src/app/models/venue';
 import { Idol } from 'src/app/models/idol';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { pairwise, startWith } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-list',
@@ -45,6 +48,10 @@ export class EventListComponent {
   idolId?: number;
   venueId?: number;
   bookingNeed?: number;
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
 
   constructor(
     private idolService: IdolService,
@@ -52,7 +59,8 @@ export class EventListComponent {
     private venueService: VenueService,
     private eventService: EventService,
     private router: Router,
-    private sharedServices: SharedServices
+    private sharedServices: SharedServices,
+    public datepipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -90,7 +98,17 @@ export class EventListComponent {
       this.seq = this.seq == 'ASC' && this.prevSelectedOrder == this.selectedOrder ? 'DESC' : 'ASC';
       this.prevSelectedOrder = this.selectedOrder;
     }
-    this.eventService.getEvent({ order_by, seq: this.seq, is_booking_need: this.bookingNeed, idol_id: this.idolId, fanbase_id: this.fanbaseId, event_name: this.name, venue_id: this.venueId, })
+
+    var startDate = '';
+    if(this.range.value.start != null){
+      startDate =this.datepipe.transform(this.range.value.start, 'yyyy-MM-dd') ?? '';
+    }
+    var endDate = '';
+    if(this.range.value.end != null){
+      endDate =this.datepipe.transform(this.range.value.end, 'yyyy-MM-dd') ?? '';
+    }
+
+    this.eventService.getEvent({ order_by, seq: this.seq, is_booking_need: this.bookingNeed, idol_id: this.idolId, fanbase_id: this.fanbaseId, event_name: this.name, venue_id: this.venueId, start_date: startDate == '' ? undefined : startDate, end_date: endDate == '' ? undefined:endDate,})
       .subscribe(eventList => {
         this.sharedServices.changeLoading(false);
         this.eventList = eventList;
@@ -142,6 +160,11 @@ export class EventListComponent {
 
   changeBookingNeed(need: number) {
     this.bookingNeed = need;
+    this.showIndex = -1;
+    this.getEventList();
+  }
+
+  changeDate(){
     this.showIndex = -1;
     this.getEventList();
   }

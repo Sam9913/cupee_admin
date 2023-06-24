@@ -27,6 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { DatePipe } from '@angular/common'
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideStorage(() => getStorage()),
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

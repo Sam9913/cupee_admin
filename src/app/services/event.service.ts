@@ -22,7 +22,8 @@ export class EventService {
   getEvent(
     param: {event_name?: string,
     is_booking_need?: number,
-    datetime?: string,
+    start_date?: string,
+    end_date?: string,
     fanbase_id?: number,
     venue_id?: number,
     idol_id?:number,
@@ -36,8 +37,11 @@ export class EventService {
     if (param.is_booking_need != undefined) {
       queryParam += (queryParam.length == 0 ? '?' : '&') + 'is_booking_need=' + param.is_booking_need;
     }
-    if (param.datetime != undefined) {
-      queryParam += (queryParam.length == 0 ? '?' : '&') + 'datetime=' + param.datetime;
+    if (param.start_date != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'start_date=' + param.start_date;
+    }
+    if (param.end_date != undefined) {
+      queryParam += (queryParam.length == 0 ? '?' : '&') + 'end_date=' + param.end_date;
     }
     if (param.fanbase_id != undefined) {
       queryParam += (queryParam.length == 0 ? '?' : '&') + 'fanbase_id=' + param.fanbase_id;
