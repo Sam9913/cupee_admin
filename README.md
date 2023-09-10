@@ -4,11 +4,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Welcome to the CupeeAdmin repository! This repository houses the codebase for an user-friendly admin panel designed specifically for managing cupsleeve events dedicated to celebrating KPOP idols birthday. Whether you are a passionate KPOP fan, or an event organizer, our admin panel will help you streamline the entire event management process.
 
-<img width="1440" alt="Screenshot 2023-09-10 at 8 22 05 PM" src="https://github.com/Sam9913/cupee_admin/assets/56577250/8592193e-2e59-4fa9-b900-12398f3fba61">
-<img width="1440" alt="Screenshot 2023-09-10 at 8 22 14 PM" src="https://github.com/Sam9913/cupee_admin/assets/56577250/ce7503bb-5b02-4b65-8bdb-81b1a2e98c5d">
-<img width="1440" alt="Screenshot 2023-09-10 at 8 22 22 PM" src="https://github.com/Sam9913/cupee_admin/assets/56577250/8ab8ae6d-d6d5-4be6-af64-f31417c25384">
-<img width="1440" alt="Screenshot 2023-09-10 at 8 22 29 PM" src="https://github.com/Sam9913/cupee_admin/assets/56577250/94bc57ba-6e33-420a-8383-c50b5b350626">
-<img width="1440" alt="Screenshot 2023-09-10 at 8 22 39 PM" src="https://github.com/Sam9913/cupee_admin/assets/56577250/30b863c4-fa18-47ab-a3ca-be1eb583999e">
+<img width="1440" alt="Login" src="https://github.com/Sam9913/cupee_admin/assets/56577250/30366287-7d6a-49c9-b458-ebc9e6322445">
+<img width="1440" alt="Home" src="https://github.com/Sam9913/cupee_admin/assets/56577250/4afa1801-28e2-4434-a1f1-fa5181e37073">
+<img width="1440" alt="Event" src="https://github.com/Sam9913/cupee_admin/assets/56577250/9fc85d85-95dc-40bc-b72a-b54f6b0cd6c8">
+<img width="1440" alt="Fanbase" src="https://github.com/Sam9913/cupee_admin/assets/56577250/9edd6d8b-8e4e-4fc4-ba6d-aa69711497f5">
+<img width="1440" alt="Idol" src="https://github.com/Sam9913/cupee_admin/assets/56577250/16128e22-8547-46dc-8d3d-dfe422b259fd">
+<img width="1440" alt="Venue" src="https://github.com/Sam9913/cupee_admin/assets/56577250/c6ff963e-60f8-4d0f-ad48-c0c5daf46e36">
 
 ## Features
 
